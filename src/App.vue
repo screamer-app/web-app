@@ -3,10 +3,30 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
+      <router-link @click="logout">Logout</router-link>
     </div>
     <router-view />
   </div>
 </template>
+
+<script>
+import firebase from "firebase";
+// @ is an alias to /src
+export default {
+  name: "home",
+  components: {},
+  methods: {
+    logout: function() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace("login");
+        });
+    }
+  }
+};
+</script>
 
 <style>
 #app {
