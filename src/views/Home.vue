@@ -1,16 +1,16 @@
 <template>
   <div class="home">
-      <p>Strona główna</p>
+        <AddScream />
   </div>
 </template>
 
 <script>
-
 import firebase from "firebase";
+import AddScream from '@/components/AddScream'
 export default {
   name: "Home",
   components: {
-
+    AddScream
   },
   data() {
     return {
