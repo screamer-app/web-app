@@ -1,23 +1,19 @@
 <template>
   <b-navbar wrapper-class="container" transparent spaced :shadow="!homepage">
-    <template slot="brand">
-      <b-navbar-item tag="router-link" :to="{ path: '/' }"
-        >screamer-app</b-navbar-item
-      >
-    </template>
+    <b-navbar-item tag="router-link" :to="{ path: '/' }"
+      >screamer-app</b-navbar-item
+    >
 
-    <template slot="end">
-      <b-navbar-item tag="div">
-        <div class="buttons">
-          <a
-            @click="logout"
-            class="button is-primary is-outlined"
-            :class="{ 'is-inverted': homepage }"
-            >Wyloguj</a
-          >
-        </div>
-      </b-navbar-item>
-    </template>
+    <b-navbar-item tag="div" class="navbar-end">
+      <div class="buttons">
+        <a
+          @click="logout"
+          class="button is-primary is-outlined"
+          :class="{ 'is-inverted': homepage }"
+          >Wyloguj</a
+        >
+      </div>
+    </b-navbar-item>
   </b-navbar>
 </template>
 
@@ -26,6 +22,11 @@ import firebase from "firebase";
 
 export default {
   name: "home",
+  data() {
+    return {
+      homepage: false
+    };
+  },
   components: {},
   methods: {
     logout: function() {

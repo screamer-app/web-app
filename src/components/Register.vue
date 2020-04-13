@@ -80,7 +80,8 @@ export default {
               id: firebase.auth().currentUser.uid,
               displayName: this.displayName,
               createAt: new Date(),
-              bio: this.bio
+              bio: this.bio,
+              photoURL: ""
             });
             this.$router.replace("/");
           },

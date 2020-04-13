@@ -1,23 +1,19 @@
 <template>
   <div class="home">
-    <Navbar v-if="!homePage" />
-    <router-view />
+      <p>Strona główna</p>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
+
 import firebase from "firebase";
-import Navbar from "@/components/Navbar.vue";
 export default {
   name: "Home",
   components: {
-    Navbar
+
   },
   data() {
     return {
-      message: null,
-      messages: [],
       authUser: []
     };
   },
