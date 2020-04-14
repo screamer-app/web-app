@@ -5,9 +5,6 @@ import "buefy/dist/buefy.css";
 import router from "./router";
 import store from "./store";
 import firebase from "firebase";
-import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap-vue/dist/bootstrap-vue.css";
 
 require("firebase/firestore");
 
@@ -28,8 +25,6 @@ export const db = firebase.firestore();
 
 Vue.config.productionTip = false;
 Vue.use(Buefy);
-Vue.use(BootstrapVue);
-Vue.use(IconsPlugin);
 
 new Vue({
   router,

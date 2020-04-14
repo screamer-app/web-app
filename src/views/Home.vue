@@ -1,26 +1,29 @@
 <template>
   <div class="home">
-        <AddScream />
+    <AddScream />
+    <ScreamList />
   </div>
 </template>
 
 <script>
 import firebase from "firebase";
-import AddScream from '@/components/AddScream'
+import AddScream from "@/components/AddScream";
+import ScreamList from "@/components/ScreamList";
 export default {
   name: "Home",
   components: {
-    AddScream
+    AddScream,
+    ScreamList
   },
   data() {
     return {
-      authUser: []
+      authUser: [],
     };
   },
   methods: {},
   beforeRouteEnter(to, from, next) {
-    next(vm => {
-      firebase.auth().onAuthStateChanged(user => {
+    next((vm) => {
+      firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           next();
         } else {
@@ -28,6 +31,6 @@ export default {
         }
       });
     });
-  }
+  },
 };
 </script>
