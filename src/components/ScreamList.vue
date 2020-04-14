@@ -26,6 +26,32 @@
             {{ scream.scream }}
           </p>
         </div>
+        <form>
+          <div class="form-group row">
+            <div class="col-12">
+              <textarea
+                v-model="comment"
+                id="textarea"
+                placeholder="Treść komentarza"
+                name="textarea"
+                cols="10"
+                rows="5"
+                class="form-control"
+              ></textarea>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="offset-6 col-10">
+              <button
+                @click="saveComment"
+                class="btn btn-primary"
+                type="button"
+              >
+                Dodaj komentarz
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
