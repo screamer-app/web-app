@@ -11,6 +11,9 @@ import Navbar from "@/components/Navbar.vue";
 export default {
   components: {
     Navbar
+  },
+  created() {
+    this.$store.dispatch("fetchUser");
   }
 };
 </script>

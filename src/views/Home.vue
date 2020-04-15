@@ -6,9 +6,9 @@
 </template>
 
 <script>
+import AddScream from "@/components/AddScream.vue";
+import ScreamList from "@/components/ScreamList.vue";
 import firebase from "firebase";
-import AddScream from "@/components/AddScream";
-import ScreamList from "@/components/ScreamList";
 export default {
   name: "Home",
   components: {
@@ -17,13 +17,13 @@ export default {
   },
   data() {
     return {
-      authUser: [],
+      authUser: []
     };
   },
   methods: {},
   beforeRouteEnter(to, from, next) {
-    next((vm) => {
-      firebase.auth().onAuthStateChanged((user) => {
+    next(vm => {
+      firebase.auth().onAuthStateChanged(user => {
         if (user) {
           next();
         } else {
@@ -31,6 +31,6 @@ export default {
         }
       });
     });
-  },
+  }
 };
 </script>

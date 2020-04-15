@@ -1,7 +1,11 @@
 <template>
   <div class="container">
     <div class="container">
-      <div v-for="scream in screams" v-bind:key="scream" class="incoming_msg">
+      <div
+        v-for="scream in screams"
+        v-bind:key="scream.createAt"
+        class="incoming_msg"
+      >
         <div class="media-left">
           <a href="#">
             <img
@@ -41,7 +45,7 @@
             </div>
           </div>
           <div class="form-group row">
-            <div class="offset-6 col-10">
+            <div class="offset-6 col-11">
               <button
                 @click="saveComment"
                 class="btn btn-primary"
@@ -67,24 +71,42 @@ export default {
     return {
       scream: null,
       screams: [],
-      authUser: [],
+      comment: null,
+      comments: [],
+      authUser: []
     };
   },
   methods: {
     fetchScreams() {
       db.collection("screams")
         .orderBy("createAt", "desc")
-        .onSnapshot((querySnapshot) => {
+        .onSnapshot(querySnapshot => {
           let allScreams = [];
-          querySnapshot.forEach((doc) => {
+          querySnapshot.forEach(doc => {
             allScreams.push(doc.data());
           });
           this.screams = allScreams;
         });
     },
+    saveComment() {
+      db.collection("users")
+        .where("id", "==", this.authUser.uid)
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            db.collection("comments").add({
+              comment: this.comment,
+              createAt: new Date().toString(),
+              userID: this.authUser.uid,
+              login: doc.data().displayName
+            });
+            this.comment = null;
+          });
+        });
+    }
   },
   created() {
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.authUser = user;
       } else {
@@ -94,8 +116,8 @@ export default {
     this.fetchScreams();
   },
   beforeRouteEnter(to, from, next) {
-    next((vm) => {
-      firebase.auth().onAuthStateChanged((user) => {
+    next(vm => {
+      firebase.auth().onAuthStateChanged(user => {
         if (user) {
           next();
         } else {
@@ -103,7 +125,7 @@ export default {
         }
       });
     });
-  },
+  }
 };
 </script>
 
