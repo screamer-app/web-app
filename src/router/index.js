@@ -3,31 +3,36 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../components/Login.vue";
 import Register from "../components/Register.vue";
+import Edit from "../components/Edit.vue";
 
 Vue.use(VueRouter);
 
-const routes = [
-  {
-    path: "/",
-    name: "Home",
-    component: Home
-  },
-  {
-    path: "/login",
-    name: "login",
-    component: Login
-  },
-  {
-    path: "/register",
-    name: "register",
-    component: Register
-  }
+const routes = [{
+        path: "/",
+        name: "Home",
+        component: Home,
+    },
+    {
+        path: "/login",
+        name: "login",
+        component: Login,
+    },
+    {
+        path: "/register",
+        name: "register",
+        component: Register,
+    },
+    {
+        path: "/edit",
+        name: "edit",
+        component: Edit,
+    },
 ];
 
 const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes
+    mode: "history",
+    base: process.env.BASE_URL,
+    routes,
 });
 
 export default router;
