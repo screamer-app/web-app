@@ -3,7 +3,7 @@
     <div class="container">
       <div
         v-for="scream in screams"
-        v-bind:key="scream.createAt"
+        v-bind:key="scream.screamId"
         class="incoming_msg"
       >
         <div class="media-left">
@@ -30,6 +30,9 @@
             {{ scream.scream }}
           </p>
         </div>
+        <div v-for="com in comments" v-bind:key="com.commentId">
+          <p v-if="com.screamId == scream.screamId">{{ com.comment }}</p>
+        </div>
         <form>
           <div class="form-group row">
             <div class="col-12">
@@ -47,7 +50,7 @@
           <div class="form-group row">
             <div class="offset-6 col-11">
               <button
-                @click="saveComment"
+                @click="saveComment(scream.screamId)"
                 class="btn btn-primary"
                 type="button"
               >
@@ -64,45 +67,35 @@
 <script>
 // @ is an alias to /src
 import firebase from "firebase";
-import { db } from "@/main.js";
 export default {
   name: "ScreamList",
   data() {
     return {
       scream: null,
-      screams: [],
       comment: null,
-      comments: [],
       authUser: []
     };
   },
-  methods: {
-    fetchScreams() {
-      db.collection("screams")
-        .orderBy("createAt", "desc")
-        .onSnapshot(querySnapshot => {
-          let allScreams = [];
-          querySnapshot.forEach(doc => {
-            allScreams.push(doc.data());
-          });
-          this.screams = allScreams;
-        });
+  computed: {
+    screams() {
+      return this.$store.getters.getScreams;
     },
-    saveComment() {
-      db.collection("users")
-        .where("id", "==", this.authUser.uid)
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            db.collection("comments").add({
-              comment: this.comment,
-              createAt: new Date().toString(),
-              userID: this.authUser.uid,
-              login: doc.data().displayName
-            });
-            this.comment = null;
-          });
-        });
+    comments() {
+      return this.$store.getters.getComments;
+    }
+  },
+  methods: {
+    saveComment(screamId) {
+      const newComment = {
+        comment: this.comment,
+        createAt: new Date().toString(),
+        userID: this.$store.getters.userdata.id,
+        login: this.$store.getters.userdata.displayName,
+        screamId: screamId
+      };
+      console.log(newComment);
+      this.$store.dispatch("saveComment", newComment);
+      this.comment = null;
     }
   },
   created() {
@@ -113,7 +106,8 @@ export default {
         this.authUser = {};
       }
     });
-    this.fetchScreams();
+    this.$store.dispatch("fetchScreams");
+    this.$store.dispatch("fetchComments");
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
