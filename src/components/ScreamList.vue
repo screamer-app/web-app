@@ -31,7 +31,24 @@
           </p>
         </div>
         <div v-for="com in comments" v-bind:key="com.commentId">
-          <p v-if="com.screamId == scream.screamId">{{ com.comment }}</p>
+          <div class="columns" v-if="com.screamId == scream.screamId">
+            <div class="column is-one-fifth">
+              <img
+                class="avatar"
+                src="https://www.w3schools.com/howto/img_avatar.png"
+                alt=""
+              />
+              <router-link class="" :to="'/profile/' + com.userID">
+              <p >
+                {{ getUserName(com.userID) }}
+              </p>
+              </router-link>
+              <p>{{ com.createAt }}</p>
+            </div>
+            <div class="column">
+              <p>{{ com.comment }}</p>
+            </div>
+          </div>
         </div>
         <form>
           <div class="form-group row">
@@ -82,6 +99,9 @@ export default {
     },
     comments() {
       return this.$store.getters.getComments;
+    },
+    users() {
+      return this.$store.getters.getUsers;
     }
   },
   methods: {
@@ -96,6 +116,13 @@ export default {
       console.log(newComment);
       this.$store.dispatch("saveComment", newComment);
       this.comment = null;
+    },
+    getUserName(userID) {
+      for (var i = 0; i < this.users.length; i++) {
+        if (this.users[i].id == userID) {
+          return this.users[i].displayName;
+        }
+      }
     }
   },
   created() {
@@ -108,6 +135,7 @@ export default {
     });
     this.$store.dispatch("fetchScreams");
     this.$store.dispatch("fetchComments");
+    this.$store.dispatch("fetchUsers");
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
@@ -154,5 +182,9 @@ body {
 /**Reset Bootstrap*/
 .dropdown-toggle::after {
   content: none;
+}
+.avatar {
+  border-radius: 50%;
+  max-width: 20%;
 }
 </style>
