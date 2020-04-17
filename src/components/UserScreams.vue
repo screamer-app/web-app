@@ -69,7 +69,7 @@
             </div>
           </div>
           <div class="form-group row">
-            <div class="offset-6 col-11">
+            <div class="offset-5 col-11">
               <button
                 @click="saveComment(scream.screamId)"
                 class="btn btn-primary"
@@ -99,7 +99,14 @@ export default {
   },
   computed: {
     screams() {
-      return this.$store.getters.getScreams;
+      let allScreams = this.$store.getters.getScreams;
+      let userScreams = [];
+      allScreams.forEach(scream => {
+        if (scream.userID == this.$route.params.id) {
+          userScreams.push(scream);
+        }
+      });
+      return userScreams;
     },
     comments() {
       return this.$store.getters.getComments;

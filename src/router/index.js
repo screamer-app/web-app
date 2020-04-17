@@ -8,7 +8,7 @@ import ScreamList from "../components/ScreamList.vue";
 import Com from "../components/Com.vue";
 import Edit from "../components/Edit.vue";
 import MyScreams from "../components/MyScreams.vue";
-import Profile from "../components/Profile.vue";
+import UserProfile from "../components/UserProfile.vue";
 
 Vue.use(VueRouter);
 const routes = [
@@ -53,9 +53,9 @@ const routes = [
     component: MyScreams
   },
   {
-    path: "/profile/:id",
-    name: "Profile",
-    component: Profile
+    path: "/user-profile/:id",
+    name: "UserProfile",
+    component: UserProfile
   }
 ];
 

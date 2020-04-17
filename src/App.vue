@@ -14,6 +14,7 @@ export default {
   },
   created() {
     this.$store.dispatch("fetchUser");
+    this.$store.dispatch("fetchUsers");
   }
 };
 </script>
