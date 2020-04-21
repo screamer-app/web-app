@@ -71,6 +71,13 @@
           <div class="form-group row">
             <div class="offset-6 col-11">
               <button
+                @click="shareScream(scream)"
+                class="btn btn-primary mr-2"
+                type="button"
+              >
+                Podaj dalej
+              </button>
+              <button
                 @click="saveComment(scream.screamId)"
                 class="btn btn-primary"
                 type="button"
@@ -127,6 +134,13 @@ export default {
           return this.users[i].displayName;
         }
       }
+    },
+    shareScream(scream) {
+      scream.sharedTo = this.authUser.uid;
+      scream.createAt = new Date().toLocaleString();
+      delete scream.screamId;
+      console.log(scream);
+      this.$store.dispatch("addScream", scream);
     }
   },
   created() {

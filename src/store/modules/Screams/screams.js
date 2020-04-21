@@ -26,6 +26,15 @@ const actions = {
         });
         commit("FETCH_SCREAMS", allScreams);
       });
+  },
+  addScream({ state }, scream) {
+    db.collection("users")
+      .where("id", "==", scream.userID)
+      .get()
+      .then(() => {
+        db.collection("screams").add(scream);
+        state.screams.push(scream);
+      });
   }
 };
 

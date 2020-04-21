@@ -17,6 +17,9 @@
             />
           </a>
         </div>
+        <div v-if="scream.sharedTo != ''" class="media-right">
+          <p>&lt;{{ user.displayName }}&gt; podał dalej</p>
+        </div>
         <div class="card-body">
           <router-link
             class="card-link"
@@ -89,6 +92,7 @@
 // @ is an alias to /src
 import firebase from "firebase";
 export default {
+  props: ["user"],
   name: "ScreamList",
   data() {
     return {
@@ -102,7 +106,10 @@ export default {
       let allScreams = this.$store.getters.getScreams;
       let userScreams = [];
       allScreams.forEach(scream => {
-        if (scream.userID == this.$route.params.id) {
+        if (
+          scream.userID == this.$route.params.id ||
+          scream.sharedTo == this.$route.params.id
+        ) {
           userScreams.push(scream);
         }
       });
@@ -176,6 +183,11 @@ body {
 .media-left {
   float: left;
   margin-right: -200px;
+  padding-bottom: 15px;
+}
+.media-right {
+  float: right;
+  margin-left: -200px;
   padding-bottom: 15px;
 }
 

@@ -3,10 +3,10 @@
     <div class="column is-4">
       <img class="user-photo" :src="user.photoURL" alt="" />
       <h2>{{ user.displayName }}</h2>
-      <p>{{user.bio}}</p>
+      <p>{{ user.bio }}</p>
     </div>
     <div class="column is-8">
-      <UserScreams />
+      <UserScreams :user="user" />
     </div>
   </div>
 </template>
