@@ -9,6 +9,7 @@ import Com from "../components/Com.vue";
 import Edit from "../components/Edit.vue";
 import MyScreams from "../components/MyScreams.vue";
 import UserProfile from "../components/UserProfile.vue";
+import TagScreams from "../components/TagScreams.vue";
 
 Vue.use(VueRouter);
 const routes = [
@@ -56,6 +57,11 @@ const routes = [
     path: "/user-profile/:id",
     name: "UserProfile",
     component: UserProfile
+  },
+  {
+    path: "/tagScreams/:tag",
+    name: "TagScreams",
+    component: TagScreams
   }
 ];
 

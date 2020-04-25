@@ -33,6 +33,13 @@
           <p class="card-text">
             {{ scream.scream }}
           </p>
+          <div class="tags">
+            <p v-for="tag in scream.tags" v-bind:key="tag" class="mr-2">
+              <router-link :to="`/tagScreams/${tag}`">
+                {{ "#" + tag }}
+              </router-link>
+            </p>
+          </div>
         </div>
         <div v-for="com in comments" v-bind:key="com.commentId">
           <div class="columns" v-if="com.screamId == scream.screamId">
@@ -96,6 +103,7 @@
 // @ is an alias to /src
 import firebase from "firebase";
 export default {
+  props: ["propScreams"],
   name: "ScreamList",
   data() {
     return {
@@ -106,7 +114,13 @@ export default {
   },
   computed: {
     screams() {
-      return this.$store.getters.getScreams;
+      if (this.propScreams == null) {
+
+        return this.$store.getters.getScreams;
+      } else {
+        
+        return this.propScreams;
+      }
     },
     comments() {
       return this.$store.getters.getComments;
@@ -144,6 +158,7 @@ export default {
     }
   },
   created() {
+    console.log(this.propScreams);
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.authUser = user;

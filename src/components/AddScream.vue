@@ -12,6 +12,8 @@
             rows="5"
             class="form-control"
           ></textarea>
+          <b-taginput v-model="tags" ellipsis icon="label" placeholder="Tagi">
+          </b-taginput>
         </div>
       </div>
       <div class="form-group row">
@@ -34,7 +36,8 @@ export default {
     return {
       scream: null,
       screams: [],
-      authUser: []
+      authUser: [],
+      tags: []
     };
   },
   methods: {
@@ -45,10 +48,12 @@ export default {
         userID: this.$store.getters.userdata.id,
         photoURL: this.$store.getters.userdata.photoURL,
         login: this.$store.getters.userdata.displayName,
-        sharedTo: ""
+        sharedTo: "",
+        tags: this.tags
       };
       this.$store.dispatch("addScream", scream);
       this.scream = null;
+      this.tags = [];
     }
   },
   created() {

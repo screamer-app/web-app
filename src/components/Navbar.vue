@@ -1,6 +1,6 @@
 <template>
   <b-navbar wrapper-class="container" transparent spaced :shadow="!homepage">
-    <b-navbar-item tag="router-link" :to="{ path: '/' }"
+    <b-navbar-item tag="router-link" to="/"
       >screamer-app</b-navbar-item
     >
 
