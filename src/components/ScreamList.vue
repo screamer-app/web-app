@@ -66,9 +66,7 @@
             <div class="col-12">
               <textarea
                 v-model="comment"
-                id="textarea"
                 placeholder="Treść komentarza"
-                name="textarea"
                 cols="10"
                 rows="5"
                 class="form-control"
@@ -115,10 +113,8 @@ export default {
   computed: {
     screams() {
       if (this.propScreams == null) {
-
         return this.$store.getters.getScreams;
       } else {
-        
         return this.propScreams;
       }
     },

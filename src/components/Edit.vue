@@ -23,8 +23,8 @@ export default {
       return this.$store.getters.userdata;
     }
   },
-  watch:{
-    authUser(){
+  watch: {
+    authUser() {
       this.url = this.authUser.photoURL;
       this.bio = this.authUser.bio;
     }

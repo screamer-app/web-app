@@ -27,9 +27,12 @@ export default {
       const allScreams = this.allScreams;
       const screams = [];
       const tag = this.$route.params.tag;
-      
+
       for (let i = 0; i < allScreams.length; i++) {
-        if (allScreams[i].tags.indexOf(tag) > -1 && allScreams[i].tags != null) {
+        if (
+          allScreams[i].tags.indexOf(tag) > -1 &&
+          allScreams[i].tags != null
+        ) {
           screams.push(allScreams[i]);
         }
       }
@@ -40,8 +43,8 @@ export default {
     this.getScreams();
     this.$store.dispatch("fetchScreams");
   },
-  watch:{
-    '$route.params.tag'(){
+  watch: {
+    "$route.params.tag"() {
       this.getScreams();
     }
   }

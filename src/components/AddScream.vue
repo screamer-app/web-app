@@ -5,9 +5,7 @@
         <div class="col-12">
           <textarea
             v-model="scream"
-            id="textarea"
             placeholder="Treść screama"
-            name="textarea"
             cols="40"
             rows="5"
             class="form-control"

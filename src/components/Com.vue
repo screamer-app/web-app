@@ -1,11 +1,7 @@
 <template>
   <div class="container">
     <div>
-      <div
-        v-for="scream in screams"
-        v-bind:key="scream"
-        class="incoming_msg"
-      >
+      <div v-for="scream in screams" v-bind:key="scream" class="incoming_msg">
         <div class="mt-4">
           <b-card
             img-src="https://babeltechreviews.com/wp-content/uploads/2018/07/rendition1.img_.jpg"

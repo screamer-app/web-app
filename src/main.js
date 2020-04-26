@@ -1,8 +1,8 @@
 /*eslint-disable */
 import Vue from "vue";
 import App from "./App.vue";
-import Buefy from "buefy";
-import "buefy/dist/buefy.css";
+import Buefy from 'buefy';
+import 'buefy/dist/buefy.css';
 import router from "./router";
 import store from "./store";
 import firebase from "firebase";
@@ -23,12 +23,12 @@ const Config = {
 
 firebase.initializeApp(Config);
 
-export const db = firebase.firestore();
 
 Vue.config.productionTip = false;
 Vue.use(Buefy);
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin)
+export const db = firebase.firestore();
 
 new Vue({
     router,

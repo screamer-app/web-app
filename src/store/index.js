@@ -4,6 +4,7 @@ import userdata from "./modules/userData/userData";
 import Screams from "./modules/Screams/screams";
 import Comments from "./modules/Comments/comments";
 import AllUsers from "./modules/AllUsers/allUsers";
+import SearchingResults from "./modules/searchingResults/searchingResults";
 
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
     userdata,
     Screams,
     Comments,
-    AllUsers
+    AllUsers,
+    SearchingResults
   }
 });
