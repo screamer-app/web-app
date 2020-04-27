@@ -24,6 +24,20 @@ const actions = {
           });
       }
     });
+  },
+  editUser({ commit }, currentUser) {
+    var docId = "";
+    db.collection("users").onSnapshot(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        if (doc.data().id == currentUser.id) {
+          docId = doc.id;
+        }
+      });
+      db.collection("users")
+        .doc(docId)
+        .update(currentUser);
+    });
+    commit("FETCH_USER_DATA", currentUser);
   }
 };
 

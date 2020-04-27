@@ -18,6 +18,9 @@ export default {
   created() {
     this.$store.dispatch("fetchUser");
     this.$store.dispatch("fetchUsers");
+    this.$store.dispatch("fetchScreams");
+    this.$store.dispatch("fetchComments");
+    this.$store.dispatch("fetchFollowedUsers");
   }
 };
 </script>

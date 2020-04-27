@@ -62,9 +62,7 @@
             <div class="col-12">
               <textarea
                 v-model="comment"
-                id="textarea"
                 placeholder="Treść komentarza"
-                name="textarea"
                 cols="10"
                 rows="5"
                 class="form-control"
@@ -151,8 +149,7 @@ export default {
         this.authUser = {};
       }
     });
-    this.$store.dispatch("fetchScreams");
-    this.$store.dispatch("fetchComments");
+    
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {

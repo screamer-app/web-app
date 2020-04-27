@@ -41,7 +41,7 @@ export default {
   },
   created() {
     this.getScreams();
-    this.$store.dispatch("fetchScreams");
+    
   },
   watch: {
     "$route.params.tag"() {

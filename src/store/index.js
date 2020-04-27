@@ -5,6 +5,7 @@ import Screams from "./modules/Screams/screams";
 import Comments from "./modules/Comments/comments";
 import AllUsers from "./modules/AllUsers/allUsers";
 import SearchingResults from "./modules/searchingResults/searchingResults";
+import FollowedUsers from "./modules/followedUsers/followedUsers";
 
 Vue.use(Vuex);
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     Screams,
     Comments,
     AllUsers,
-    SearchingResults
+    SearchingResults,
+    FollowedUsers
   }
 });

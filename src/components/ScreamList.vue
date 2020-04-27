@@ -154,7 +154,6 @@ export default {
     }
   },
   created() {
-    console.log(this.propScreams);
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.authUser = user;
@@ -162,8 +161,7 @@ export default {
         this.authUser = {};
       }
     });
-    this.$store.dispatch("fetchScreams");
-    this.$store.dispatch("fetchComments");
+    
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {

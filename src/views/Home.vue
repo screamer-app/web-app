@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <AddScream />
-    <ScreamList />
+    <ScreamList :propScreams="getFollowedScreams()" />
   </div>
 </template>
 
@@ -17,10 +17,37 @@ export default {
   },
   data() {
     return {
-      authUser: []
+      authUser: [],
+      followedScreams: []
     };
   },
-  methods: {},
+  computed: {
+    followedUsers() {
+      return this.$store.getters.getFollowedUsers;
+    },
+    userdata() {
+      return this.$store.getters.userdata;
+    },
+    allScreams() {
+      return this.$store.getters.getScreams;
+    }
+  },
+  created() {},
+  methods: {
+    getFollowedScreams() {
+      const followedScreams = [];
+      console.log(this.allScreams);
+      for (let i = 0; i < this.allScreams.length; i++) {
+        for (let j = 0; j < this.followedUsers.length; j++) {
+          if (this.followedUsers[j].id == this.allScreams[i].userID) {
+            followedScreams.push(this.allScreams[i]);
+          }
+        }
+      }
+
+      return followedScreams;
+    }
+  },
   beforeRouteEnter(to, from, next) {
     next(vm => {
       firebase.auth().onAuthStateChanged(user => {

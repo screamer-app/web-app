@@ -1,22 +1,24 @@
 const state = {
-	searchingResults:{
-		users: null,
-		screams: null
-	}
+  searchingResults: {
+    users: null,
+    screams: null
+  }
 };
 
 const mutations = {
-	setSearchingResults(state, searchingResults){
-		state.searchingResults = searchingResults;
-	}
+  setSearchingResults(state, searchingResults) {
+    state.searchingResults = searchingResults;
+  }
 };
 
 const getters = {
-	getSearchingResults(state){
-		return state.searchingResults;
-	}
+  getSearchingResults(state) {
+    return state.searchingResults;
+  }
 };
 
-export default{
-	state, mutations, getters
+export default {
+  state,
+  mutations,
+  getters
 };

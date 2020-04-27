@@ -81,7 +81,8 @@ export default {
               displayName: this.displayName,
               createAt: new Date(),
               bio: this.bio,
-              photoURL: ""
+              photoURL: "",
+              myScreamers: []
             });
             this.$router.replace("/");
           },
