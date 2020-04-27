@@ -61,7 +61,7 @@
             </div>
           </div>
         </div>
-        <form>
+        <form v-if="authUser.uid">
           <div class="form-group row">
             <div class="col-12">
               <textarea
@@ -74,7 +74,7 @@
             </div>
           </div>
           <div class="form-group row">
-            <div class="offset-6 col-11">
+            <div class="offset-6 col-11" >
               <button
                 @click="shareScream(scream)"
                 class="btn btn-primary mr-2"
@@ -161,7 +161,6 @@ export default {
         this.authUser = {};
       }
     });
-    
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {

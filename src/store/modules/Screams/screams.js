@@ -42,7 +42,6 @@ const getters = {
   getScreams(state) {
     return state.screams;
   }
-
 };
 
 export default {

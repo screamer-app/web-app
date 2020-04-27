@@ -2,13 +2,14 @@
   <b-navbar wrapper-class="container" transparent spaced :shadow="!homepage">
     <b-navbar-item tag="router-link" to="/">screamer-app</b-navbar-item>
 
-    <b-navbar-item tag="div" class="navbar-end">
+    <b-navbar-item v-if="visible" tag="div" class="navbar-end">
       <b-input
         placeholder="Wpisz nazwę lub tag..."
         type="search"
         icon="magnify"
         v-model="search"
         @keyup="searching"
+        @keydown="searching"
       >
       </b-input>
       <div class="buttons">
@@ -20,6 +21,16 @@
         >
       </div>
     </b-navbar-item>
+    <b-navbar-item v-if="!visible" class="navbar-end">
+      <div class="buttons">
+        <a
+          @click="login"
+          class="button is-primary is-outlined"
+          :class="{ 'is-inverted': homepage }"
+          >Zaloguj się!</a
+        >
+      </div>
+    </b-navbar-item>
   </b-navbar>
 </template>
 
@@ -27,12 +38,14 @@
 import firebase from "firebase";
 
 export default {
+  props: ["cleanSearchingBar"],
   name: "home",
   data() {
     return {
       homepage: false,
       isPublic: true,
-      search: ""
+      search: "",
+      visible: false
     };
   },
   computed: {
@@ -43,6 +56,12 @@ export default {
       return this.$store.getters.getScreams;
     }
   },
+  watch: {
+    cleanSearchingBar() {
+      console.log(this.cleanSearchingBar);
+      this.search = "";
+    }
+  },
   methods: {
     logout: function() {
       firebase
@@ -51,6 +70,9 @@ export default {
         .then(() => {
           this.$router.replace("login");
         });
+    },
+    login: function(){
+      this.$router.replace("login");
     },
     searching() {
       const users = [];
@@ -67,11 +89,27 @@ export default {
           }
         });
       }
-      this.$store.commit("setSearchingResults", {
-        users: users,
-        screams: screams
-      });
+      var searchingResult = {
+        users: null,
+        screams: null
+      };
+      if (this.search != "") {
+        searchingResult = {
+          users: users,
+          screams: screams
+        };
+      }
+      this.$store.commit("SET_SEARCHING_RESULTS", searchingResult);
     }
+  },
+  created() {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.visible = true;
+      } else {
+        this.visible = false;
+      }
+    });
   }
 };
 </script>

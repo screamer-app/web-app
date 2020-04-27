@@ -41,7 +41,6 @@ export default {
   },
   created() {
     this.getScreams();
-    
   },
   watch: {
     "$route.params.tag"() {

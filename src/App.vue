@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Navbar />
-    <SearchingResults />
+    <Navbar :cleanSearchingBar="cleanSearchingBar" />
+    <SearchingResults @cleanSearchBar="cleanSearchBar($event)" />
     <router-view />
   </div>
 </template>
@@ -11,6 +11,11 @@ import Navbar from "@/components/Navbar.vue";
 import SearchingResults from "@/components/SearchingResults";
 
 export default {
+  data() {
+    return {
+      cleanSearchingBar: ""
+    };
+  },
   components: {
     Navbar,
     SearchingResults
@@ -21,6 +26,11 @@ export default {
     this.$store.dispatch("fetchScreams");
     this.$store.dispatch("fetchComments");
     this.$store.dispatch("fetchFollowedUsers");
+  },
+  methods: {
+    cleanSearchBar(e) {
+      this.cleanSearchingBar = e;
+    }
   }
 };
 </script>

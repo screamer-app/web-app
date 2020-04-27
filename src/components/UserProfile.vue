@@ -22,6 +22,7 @@
 
 <script>
 import UserScreams from "./UserScreams";
+import firebase from "firebase";
 
 export default {
   data() {
@@ -38,8 +39,16 @@ export default {
       return this.$store.getters.userdata;
     }
   },
+  watch: {
+    "$route.params.id"() {
+      for (let i = 0; i < this.users.length; i++) {
+        if (this.users[i].id == this.$route.params.id) {
+          this.user = this.users[i];
+        }
+      }
+    }
+  },
   created() {
-    
     for (let i = 0; i < this.users.length; i++) {
       if (this.users[i].id == this.$route.params.id) {
         this.user = this.users[i];
@@ -56,6 +65,10 @@ export default {
   },
   methods: {
     follow() {
+      if (!firebase.auth().currentUser) {
+        this.$router.push("/login");
+        return;
+      }
       const currentUser = this.currentUser;
       if (!currentUser.myScreamers) {
         currentUser.myScreamers = [];

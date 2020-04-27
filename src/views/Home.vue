@@ -36,28 +36,21 @@ export default {
   methods: {
     getFollowedScreams() {
       const followedScreams = [];
-      console.log(this.allScreams);
-      for (let i = 0; i < this.allScreams.length; i++) {
-        for (let j = 0; j < this.followedUsers.length; j++) {
-          if (this.followedUsers[j].id == this.allScreams[i].userID) {
-            followedScreams.push(this.allScreams[i]);
+      if (firebase.auth().currentUser != null) {
+        for (let i = 0; i < this.allScreams.length; i++) {
+          for (let j = 0; j < this.followedUsers.length; j++) {
+            if (this.followedUsers[j].id == this.allScreams[i].userID) {
+              followedScreams.push(this.allScreams[i]);
+            }
           }
         }
+        return followedScreams;
+      } else {
+        return firebase.auth().currentUser != null
+          ? followedScreams
+          : this.allScreams;
       }
-
-      return followedScreams;
     }
-  },
-  beforeRouteEnter(to, from, next) {
-    next(vm => {
-      firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          next();
-        } else {
-          vm.$router.push("/login");
-        }
-      });
-    });
   }
 };
 </script>

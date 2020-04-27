@@ -6,8 +6,12 @@ const state = {
 };
 
 const mutations = {
-  setSearchingResults(state, searchingResults) {
+  SET_SEARCHING_RESULTS(state, searchingResults) {
     state.searchingResults = searchingResults;
+  },
+  RESET_SEARCHING_RESULTS(state) {
+    state.searchingResults.users = null;
+    state.searchingResults.screams = null;
   }
 };
 

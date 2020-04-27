@@ -57,7 +57,7 @@
             </div>
           </div>
         </div>
-        <form>
+        <form v-if="authUser.uid">
           <div class="form-group row">
             <div class="col-12">
               <textarea
@@ -149,7 +149,6 @@ export default {
         this.authUser = {};
       }
     });
-    
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
