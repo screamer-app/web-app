@@ -8,6 +8,9 @@ const state = {
 const mutations = {
   FETCH_USER_DATA(state, userdata) {
     state.userdata = userdata;
+  },
+  REMOVE_USER_DATA(state) {
+    state.userdata = null;
   }
 };
 
@@ -38,6 +41,9 @@ const actions = {
         .update(currentUser);
     });
     commit("FETCH_USER_DATA", currentUser);
+  },
+  logout({ commit }) {
+    commit("REMOVE_USER_DATA");
   }
 };
 

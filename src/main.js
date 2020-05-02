@@ -6,10 +6,10 @@ import 'buefy/dist/buefy.css';
 import router from "./router";
 import store from "./store";
 import firebase from "firebase";
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 require("firebase/firestore");
+require("firebase/functions");
+
 const Config = {
     apiKey: "AIzaSyBrJbhxONYQDprXw-kqmzHUEWl83e89Ky0",
     authDomain: "screamer-app.firebaseapp.com",
@@ -26,9 +26,9 @@ firebase.initializeApp(Config);
 
 Vue.config.productionTip = false;
 Vue.use(Buefy);
-Vue.use(BootstrapVue);
-Vue.use(IconsPlugin)
+
 export const db = firebase.firestore();
+export const functions = firebase.functions();
 
 new Vue({
     router,

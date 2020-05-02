@@ -10,6 +10,8 @@ import Edit from "../components/Edit.vue";
 import MyScreams from "../components/MyScreams.vue";
 import UserProfile from "../components/UserProfile.vue";
 import TagScreams from "../components/TagScreams.vue";
+import AdminPanel from "../components/AdminPanel.vue";
+import EditScream from "../components/EditScream.vue";
 
 Vue.use(VueRouter);
 const routes = [
@@ -62,6 +64,16 @@ const routes = [
     path: "/tagScreams/:tag",
     name: "TagScreams",
     component: TagScreams
+  },
+  {
+    path: "/adminPanel",
+    name: "AdminPanel",
+    component: AdminPanel
+  },
+  {
+    path: "/editScream/:screamId",
+    name: "EditScream",
+    component: EditScream
   }
 ];
 

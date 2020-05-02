@@ -35,6 +35,15 @@ const actions = {
         db.collection("comments").add(commentData);
         state.comments.push(commentData);
       });
+  },
+  deleteScreamComments({ state }, screamId) {
+    for (let i = 0; i < state.comments.length; i++) {
+      if (state.comments[i].screamId == screamId) {
+        db.collection("comments")
+          .doc(state.comments[i].commentId)
+          .delete();
+      }
+    }
   }
 };
 

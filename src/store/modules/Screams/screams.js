@@ -35,12 +35,33 @@ const actions = {
         db.collection("screams").add(scream);
         state.screams.push(scream);
       });
+  },
+  deleteScream({ dispatch }, screamId) {
+    db.collection("screams")
+      .doc(screamId)
+      .delete();
+    dispatch("deleteScreamComments", screamId);
+  },
+  editScream(context, scream){
+    console.log(scream);
+    db.collection('screams').doc(scream.screamId).update(scream);
+
   }
 };
 
 const getters = {
   getScreams(state) {
     return state.screams;
+  },
+  getScreamById: state => screamId => {
+    var scream = {};
+    for(let i=0 ; i<state.screams.length ; i++){
+      if(state.screams[i].screamId == screamId){
+        scream = state.screams[i];
+      }
+    }
+    return scream;
+
   }
 };
 

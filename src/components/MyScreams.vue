@@ -3,32 +3,7 @@
     <Edit />
     <div>
       <P>Screamy:</P>
-      <div
-        v-for="scream in screams"
-        v-bind:key="scream.createAt"
-        class="incoming_msg"
-      >
-        <div class="mt-4">
-          <b-card
-            img-src="https://babeltechreviews.com/wp-content/uploads/2018/07/rendition1.img_.jpg"
-            img-width="180"
-            img-height="180"
-            img-alt="Card image"
-            img-left
-            class="mb-3"
-          >
-            <b-card-title>
-              <a>{{ scream.login }} </a>
-            </b-card-title>
-            <b-card-sub-title>
-              {{ scream.createAt }}
-            </b-card-sub-title>
-            <b-card-text>
-              {{ scream.scream }}
-            </b-card-text>
-          </b-card>
-        </div>
-      </div>
+      <ScreamList :propScreams="screams" />
     </div>
   </div>
 </template>
@@ -38,6 +13,8 @@
 import firebase from "firebase";
 import Edit from "./Edit";
 import { db } from "@/main.js";
+import ScreamList from "./ScreamList";
+
 export default {
   name: "PrivateChat",
   data() {
@@ -53,8 +30,11 @@ export default {
         .onSnapshot(querySnapshot => {
           let allScreams = [];
           querySnapshot.forEach(doc => {
+            var scream = {};
             if (doc.data().userID == firebase.auth().currentUser.uid) {
-              allScreams.push(doc.data());
+              scream = doc.data();
+              scream["screamId"] = doc.id;
+              allScreams.push(scream);
             }
           });
           this.screams = allScreams;
@@ -81,7 +61,8 @@ export default {
     });
   },
   components: {
-    Edit
+    Edit,
+    ScreamList
   }
 };
 </script>

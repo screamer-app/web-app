@@ -74,11 +74,28 @@
             </div>
           </div>
           <div class="form-group row">
-            <div class="offset-6 col-11" >
+            <div class="offset-6 col-11">
+              <button
+                class="btn btn-primary mr-2"
+                @click="editScream(scream)"
+                type="button"
+                v-if="$route.path == '/adminPanel' || $route.path == '/screams'"
+              >
+                Edytuj
+              </button>
+              <button
+                class="btn btn-primary mr-2"
+                @click="deleteScream(scream)"
+                type="button"
+                v-if="$route.path == '/adminPanel' || $route.path == '/screams'"
+              >
+                Usuń
+              </button>
               <button
                 @click="shareScream(scream)"
                 class="btn btn-primary mr-2"
                 type="button"
+                v-if="$route.path != '/adminPanel'"
               >
                 Podaj dalej
               </button>
@@ -86,6 +103,7 @@
                 @click="saveComment(scream.screamId)"
                 class="btn btn-primary"
                 type="button"
+                v-if="$route.path != '/adminPanel'"
               >
                 Dodaj komentarz
               </button>
@@ -151,6 +169,12 @@ export default {
       delete scream.screamId;
       console.log(scream);
       this.$store.dispatch("addScream", scream);
+    },
+    deleteScream(scream) {
+      this.$store.dispatch("deleteScream", scream.screamId);
+    },
+    editScream(scream) {
+      this.$router.push("/editScream/" + scream.screamId);
     }
   },
   created() {

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <AddScream />
+    <AddScream v-if="userdata != null" />
     <ScreamList :propScreams="getFollowedScreams()" />
   </div>
 </template>
@@ -9,6 +9,7 @@
 import AddScream from "@/components/AddScream.vue";
 import ScreamList from "@/components/ScreamList.vue";
 import firebase from "firebase";
+
 export default {
   name: "Home",
   components: {
@@ -32,7 +33,6 @@ export default {
       return this.$store.getters.getScreams;
     }
   },
-  created() {},
   methods: {
     getFollowedScreams() {
       const followedScreams = [];

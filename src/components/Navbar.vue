@@ -1,36 +1,45 @@
 <template>
-  <b-navbar wrapper-class="container" transparent spaced :shadow="!homepage">
-    <b-navbar-item tag="router-link" to="/">screamer-app</b-navbar-item>
-
-    <b-navbar-item v-if="visible" tag="div" class="navbar-end">
-      <b-input
-        placeholder="Wpisz nazwę lub tag..."
-        type="search"
-        icon="magnify"
-        v-model="search"
-        @keyup="searching"
-        @keydown="searching"
+  <b-navbar>
+    <template slot="brand">
+      <b-navbar-item tag="router-link" to="/">screamer-app</b-navbar-item>
+    </template>
+    <template slot="start">
+      <b-navbar-item class="" tag="router-link" to="/screams"
+        >Mój profil</b-navbar-item
       >
-      </b-input>
-      <div class="buttons">
-        <a
-          @click="logout"
-          class="button is-primary is-outlined"
-          :class="{ 'is-inverted': homepage }"
-          >Wyloguj</a
+    </template>
+
+    <template slot="end">
+      <b-navbar-item v-if="visible" tag="div" class="navbar-end">
+        <b-input
+          placeholder="Wpisz nazwę lub tag..."
+          type="search"
+          icon="magnify"
+          v-model="search"
+          @keyup="searching"
+          @keydown="searching"
         >
-      </div>
-    </b-navbar-item>
-    <b-navbar-item v-if="!visible" class="navbar-end">
-      <div class="buttons">
-        <a
-          @click="login"
-          class="button is-primary is-outlined"
-          :class="{ 'is-inverted': homepage }"
-          >Zaloguj się!</a
-        >
-      </div>
-    </b-navbar-item>
+        </b-input>
+        <div class="buttons">
+          <a
+            @click="logout"
+            class="button is-primary is-outlined"
+            :class="{ 'is-inverted': homepage }"
+            >Wyloguj</a
+          >
+        </div>
+      </b-navbar-item>
+      <b-navbar-item v-if="!visible" class="navbar-end">
+        <div class="buttons">
+          <a
+            @click="login"
+            class="button is-primary is-outlined"
+            :class="{ 'is-inverted': homepage }"
+            >Zaloguj się!</a
+          >
+        </div>
+      </b-navbar-item>
+    </template>
   </b-navbar>
 </template>
 
@@ -43,7 +52,6 @@ export default {
   data() {
     return {
       homepage: false,
-      isPublic: true,
       search: "",
       visible: false
     };
@@ -68,10 +76,11 @@ export default {
         .auth()
         .signOut()
         .then(() => {
+          this.$store.dispatch("logout");
           this.$router.replace("login");
         });
     },
-    login: function(){
+    login: function() {
       this.$router.replace("login");
     },
     searching() {
