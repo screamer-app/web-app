@@ -4,10 +4,10 @@
       <b-navbar-item tag="router-link" to="/">screamer-app</b-navbar-item>
     </template>
     <template slot="start">
-      <b-navbar-item class="" tag="router-link" to="/screams"
+      <b-navbar-item v-if="visible" class="" tag="router-link" to="/screams"
         >Mój profil</b-navbar-item
       >
-      <b-navbar-item class="" tag="router-link" to="/adminPanel"
+      <b-navbar-item v-if="$store.getters.userdata.isAdmin" class="" tag="router-link" to="/adminPanel"
         >Admin</b-navbar-item
       >
     </template>

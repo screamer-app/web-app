@@ -20,7 +20,7 @@ export default {
     }
   },
   beforeRouteEnter(to, from, next){
-    if(from.matched[0].instances.default.authUser.isAdmin){
+    if(from.matched[0].instances.default.$store.getters.userdata.isAdmin){
       next();
     }else{
       alert('Przykro mi nie masz uprawnień');

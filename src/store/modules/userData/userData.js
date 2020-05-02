@@ -10,7 +10,7 @@ const mutations = {
     state.userdata = userdata;
   },
   REMOVE_USER_DATA(state) {
-    state.userdata = null;
+    state.userdata = {};
   }
 };
 

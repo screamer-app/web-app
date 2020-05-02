@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <AddScream v-if="userdata != null" />
+    <AddScream v-if="authUser != null" />
     <ScreamList :propScreams="getFollowedScreams()" />
   </div>
 </template>
@@ -18,7 +18,6 @@ export default {
   },
   data() {
     return {
-      authUser: [],
       followedScreams: []
     };
   },
@@ -26,7 +25,7 @@ export default {
     followedUsers() {
       return this.$store.getters.getFollowedUsers;
     },
-    userdata() {
+    authUser() {
       return this.$store.getters.userdata;
     },
     allScreams() {
