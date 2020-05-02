@@ -42,10 +42,10 @@ const actions = {
       .delete();
     dispatch("deleteScreamComments", screamId);
   },
-  editScream(context, scream){
-    console.log(scream);
-    db.collection('screams').doc(scream.screamId).update(scream);
-
+  editScream(context, scream) {
+    db.collection("screams")
+      .doc(scream.screamId)
+      .update(scream);
   }
 };
 
@@ -55,13 +55,12 @@ const getters = {
   },
   getScreamById: state => screamId => {
     var scream = {};
-    for(let i=0 ; i<state.screams.length ; i++){
-      if(state.screams[i].screamId == screamId){
+    for (let i = 0; i < state.screams.length; i++) {
+      if (state.screams[i].screamId == screamId) {
         scream = state.screams[i];
       }
     }
     return scream;
-
   }
 };
 

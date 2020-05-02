@@ -82,7 +82,8 @@ export default {
               createAt: new Date(),
               bio: this.bio,
               photoURL: "",
-              myScreamers: []
+              myScreamers: [],
+              isAdmin: false
             });
             this.$router.replace("/");
           },

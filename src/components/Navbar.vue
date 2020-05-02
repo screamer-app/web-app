@@ -7,6 +7,9 @@
       <b-navbar-item class="" tag="router-link" to="/screams"
         >Mój profil</b-navbar-item
       >
+      <b-navbar-item class="" tag="router-link" to="/adminPanel"
+        >Admin</b-navbar-item
+      >
     </template>
 
     <template slot="end">

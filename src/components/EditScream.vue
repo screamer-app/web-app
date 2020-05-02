@@ -10,7 +10,12 @@
             rows="5"
             class="form-control"
           ></textarea>
-          <b-taginput v-model="scream.tags" ellipsis icon="label" placeholder="Tagi">
+          <b-taginput
+            v-model="scream.tags"
+            ellipsis
+            icon="label"
+            placeholder="Tagi"
+          >
           </b-taginput>
         </div>
       </div>
@@ -26,20 +31,20 @@
 </template>
 
 <script>
-  export default{
-    computed:{
-      scream(){
-        return this.$store.getters.getScreamById(this.$route.params.screamId);
-      }
-    },
-    created(){
-      this.$store.dispatch('fetchScreams');
-    },
-    methods:{
-      editScream(){
-        const scream = this.scream;
-        this.$store.dispatch('editScream', scream);
-      }
+export default {
+  computed: {
+    scream() {
+      return this.$store.getters.getScreamById(this.$route.params.screamId);
+    }
+  },
+  created() {
+    this.$store.dispatch("fetchScreams");
+  },
+  methods: {
+    editScream() {
+      const scream = this.scream;
+      this.$store.dispatch("editScream", scream);
     }
   }
+};
 </script>
