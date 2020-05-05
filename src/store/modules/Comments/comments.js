@@ -44,6 +44,12 @@ const actions = {
           .delete();
       }
     }
+  },
+  deleteComment(context, commentId){
+    db.collection('comments').doc(commentId).delete();
+  },
+  editComment(context, comment){
+    db.collection('comments').doc(comment.commentId).update(comment);
   }
 };
 

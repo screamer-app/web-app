@@ -57,7 +57,15 @@
               <p>{{ com.createAt }}</p>
             </div>
             <div class="column">
-              <p>{{ com.comment }}</p>
+              <p v-if="!editingCommentId.includes(com.commentId)">{{ com.comment }}</p>
+              <div v-if="editingCommentId.includes(com.commentId)">
+                <input type="text" v-model="com.comment">
+                <button class="btn btn-primary" @click="editComment(com)">Edytuj</button>
+              </div>
+            </div>
+            <div v-if="com.userID == $store.getters.userdata.id || $route.path == '/adminPanel'" class="column">
+              <button v-if="!editingCommentId.includes(com.commentId)" class="btn btn-primary mr-2" @click="editComment(com)">Edytuj</button>
+              <button class="btn btn-primary" @click="deleteComment(com)">Usuń</button>
             </div>
           </div>
         </div>
@@ -125,7 +133,8 @@ export default {
     return {
       scream: null,
       comment: null,
-      authUser: []
+      authUser: [],
+      editingCommentId: []
     };
   },
   computed: {
@@ -182,6 +191,19 @@ export default {
     },
     editScream(scream) {
       this.$router.push("/editScream/" + scream.screamId);
+    },
+    editComment(comment){
+      if(!this.editingCommentId.includes(comment.commentId)){
+        this.editingCommentId.push(comment.commentId);
+      }else{
+        const indexOf = this.editingCommentId.indexOf(comment.commentId);
+        this.editingCommentId.splice(indexOf, 1);
+        this.$store.dispatch('editComment', comment);
+      }
+      
+    },
+    deleteComment(comment){
+      this.$store.dispatch('deleteComment', comment.commentId);
     }
   },
   created() {

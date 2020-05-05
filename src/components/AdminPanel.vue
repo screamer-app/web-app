@@ -3,7 +3,6 @@
     <b-tab-item label="Screamy" icon="library-music">
       <ScreamList />
     </b-tab-item>
-    {{user}}
   </b-tabs>
 </template>
 
@@ -13,11 +12,6 @@ import ScreamList from "./ScreamList";
 export default {
   components: {
     ScreamList
-  },
-  computed:{
-    user(){
-      return this.$store.getters.userdata.isAdmin;
-    }
   },
   beforeRouteEnter(to, from, next){
     if(from.matched[0].instances.default.$store.getters.userdata.isAdmin){
