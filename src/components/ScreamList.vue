@@ -10,7 +10,7 @@
           <a href="#">
             <img
               class="media-object photo-profile"
-              :src="scream.photoURL"
+              :src="getUserPhoto(scream.userID)"
               width="60"
               height="60"
               alt="..."
@@ -160,6 +160,13 @@ export default {
       for (var i = 0; i < this.users.length; i++) {
         if (this.users[i].id == userID) {
           return this.users[i].displayName;
+        }
+      }
+    },
+    getUserPhoto(userID){
+      for (var i = 0; i < this.users.length; i++) {
+        if (this.users[i].id == userID) {
+          return this.users[i].photoURL;
         }
       }
     },

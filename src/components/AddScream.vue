@@ -44,7 +44,6 @@ export default {
         scream: this.scream,
         createAt: new Date().toLocaleString(),
         userID: this.$store.getters.userdata.id,
-        photoURL: this.$store.getters.userdata.photoURL,
         login: this.$store.getters.userdata.displayName,
         sharedTo: "",
         tags: this.tags

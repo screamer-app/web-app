@@ -1,8 +1,8 @@
 <template>
   <div>
-    <input v-model="url" id="url" name="url" class="form-control" />
+    <input v-model="authUser.photoURL" id="url" name="url" class="form-control" />
     <button @click="update_photo">Zmień avatar</button>
-    <input v-model="bio" id="bio" name="bio" class="form-control" />
+    <input v-model="authUser.bio" id="bio" name="bio" class="form-control" />
     <button @click="update_bio">Zmień bio</button>
   </div>
 </template>
@@ -14,19 +14,12 @@ export default {
   name: "Edit",
   data() {
     return {
-      url: "",
-      bio: ""
+      
     };
   },
   computed: {
     authUser() {
       return this.$store.getters.userdata;
-    }
-  },
-  watch: {
-    authUser() {
-      this.url = this.authUser.photoURL;
-      this.bio = this.authUser.bio;
     }
   },
   methods: {
@@ -40,11 +33,10 @@ export default {
               db.collection("users")
                 .doc(doc.id)
                 .update({
-                  photoURL: this.url
+                  photoURL: this.authUser.photoURL
                 })
                 .then(function() {});
             });
-            this.url = "";
           });
       }
     },
@@ -59,16 +51,12 @@ export default {
               db.collection("users")
                 .doc(doc.id)
                 .update({
-                  bio: this.bio
+                  bio: this.authUser.bio
                 })
                 .then(function() {});
             });
-            this.bio = "";
           });
       }
-    },
-    created() {
-      console.log(this.authUser);
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
