@@ -7,7 +7,11 @@
       <b-navbar-item v-if="visible" class="" tag="router-link" to="/screams"
         >Mój profil</b-navbar-item
       >
-      <b-navbar-item v-if="$store.getters.userdata.isAdmin" class="" tag="router-link" to="/adminPanel"
+      <b-navbar-item
+        v-if="$store.getters.userdata.isAdmin"
+        class=""
+        tag="router-link"
+        to="/adminPanel"
         >Admin</b-navbar-item
       >
     </template>
@@ -19,10 +23,9 @@
           type="search"
           icon="magnify"
           v-model="search"
-          @keyup="searching"
-          @keydown="searching"
-        >
-        </b-input>
+          @keyup.native="searching"
+        ></b-input>
+
         <div class="buttons">
           <a
             @click="logout"
