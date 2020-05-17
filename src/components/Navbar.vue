@@ -14,6 +14,9 @@
         to="/adminPanel"
         >Admin</b-navbar-item
       >
+      <b-navbar-item v-if="visible" tag="router-link" to="/messages">
+        Wiadomości({{ $store.getters.userdata.unreadMessages.length }})
+      </b-navbar-item>
     </template>
 
     <template slot="end">
@@ -83,7 +86,7 @@ export default {
         .signOut()
         .then(() => {
           this.$store.dispatch("logout");
-          this.$router.replace("login");
+          this.$router.push("/login");
         });
     },
     login: function() {

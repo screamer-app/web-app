@@ -1,6 +1,11 @@
 <template>
   <div>
-    <input v-model="authUser.photoURL" id="url" name="url" class="form-control" />
+    <input
+      v-model="authUser.photoURL"
+      id="url"
+      name="url"
+      class="form-control"
+    />
     <button @click="update_photo">Zmień avatar</button>
     <input v-model="authUser.bio" id="bio" name="bio" class="form-control" />
     <button @click="update_bio">Zmień bio</button>
@@ -13,9 +18,7 @@ import { db } from "@/main.js";
 export default {
   name: "Edit",
   data() {
-    return {
-      
-    };
+    return {};
   },
   computed: {
     authUser() {

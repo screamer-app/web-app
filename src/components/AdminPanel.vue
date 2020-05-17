@@ -13,11 +13,11 @@ export default {
   components: {
     ScreamList
   },
-  beforeRouteEnter(to, from, next){
-    if(from.matched[0].instances.default.$store.getters.userdata.isAdmin){
+  beforeRouteEnter(to, from, next) {
+    if (from.matched[0].instances.default.$store.getters.userdata.isAdmin) {
       next();
-    }else{
-      alert('Przykro mi nie masz uprawnień');
+    } else {
+      alert("Przykro mi nie masz uprawnień");
     }
   }
 };

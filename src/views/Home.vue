@@ -38,7 +38,10 @@ export default {
       if (firebase.auth().currentUser != null) {
         for (let i = 0; i < this.allScreams.length; i++) {
           for (let j = 0; j < this.followedUsers.length; j++) {
-            if (this.followedUsers[j].id == this.allScreams[i].userID) {
+            if (
+              this.followedUsers[j].id == this.allScreams[i].userID ||
+              this.allScreams[i].sharedTo == this.followedUsers[j].id
+            ) {
               followedScreams.push(this.allScreams[i]);
             }
           }

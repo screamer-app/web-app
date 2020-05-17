@@ -26,6 +26,7 @@ export default {
     this.$store.dispatch("fetchScreams");
     this.$store.dispatch("fetchComments");
     this.$store.dispatch("fetchFollowedUsers");
+    this.$store.dispatch("fetchAllMessages");
   },
   methods: {
     cleanSearchBar(e) {

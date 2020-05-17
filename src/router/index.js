@@ -12,6 +12,8 @@ import UserProfile from "../components/UserProfile.vue";
 import TagScreams from "../components/TagScreams.vue";
 import AdminPanel from "../components/AdminPanel.vue";
 import EditScream from "../components/EditScream.vue";
+import MessageDialog from "../components/MessageDialog.vue";
+import Messages from "../components/Messages.vue";
 
 Vue.use(VueRouter);
 const routes = [
@@ -74,6 +76,16 @@ const routes = [
     path: "/editScream/:screamId",
     name: "EditScream",
     component: EditScream
+  },
+  {
+    path: "/messageDialog/:userId",
+    name: "MessageDialog",
+    component: MessageDialog
+  },
+  {
+    path: "/messages",
+    name: "Messages",
+    component: Messages
   }
 ];
 

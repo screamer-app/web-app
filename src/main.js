@@ -6,6 +6,7 @@ import 'buefy/dist/buefy.css';
 import router from "./router";
 import store from "./store";
 import firebase from "firebase";
+import VueResource from 'vue-resource';
 
 require("firebase/firestore");
 require("firebase/functions");
@@ -26,6 +27,9 @@ firebase.initializeApp(Config);
 
 Vue.config.productionTip = false;
 Vue.use(Buefy);
+Vue.use(VueResource);
+
+Vue.http.options.root = 'https://screamer-app.firebaseio.com/';
 
 export const db = firebase.firestore();
 export const functions = firebase.functions();

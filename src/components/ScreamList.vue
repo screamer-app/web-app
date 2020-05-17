@@ -17,6 +17,14 @@
             />
           </a>
         </div>
+        <div v-if="scream.sharedTo != ''" class="media-right">
+          <p>
+            &lt;<router-link :to="'/user-profile/' + scream.sharedTo">{{
+              getUserName(scream.sharedTo)
+            }}</router-link
+            >&gt; podał dalej
+          </p>
+        </div>
         <div class="card-body">
           <router-link
             class="card-link"
@@ -57,15 +65,33 @@
               <p>{{ com.createAt }}</p>
             </div>
             <div class="column">
-              <p v-if="!editingCommentId.includes(com.commentId)">{{ com.comment }}</p>
+              <p v-if="!editingCommentId.includes(com.commentId)">
+                {{ com.comment }}
+              </p>
               <div v-if="editingCommentId.includes(com.commentId)">
-                <input type="text" v-model="com.comment">
-                <button class="btn btn-primary" @click="editComment(com)">Edytuj</button>
+                <input type="text" v-model="com.comment" />
+                <button class="btn btn-primary" @click="editComment(com)">
+                  Edytuj
+                </button>
               </div>
             </div>
-            <div v-if="com.userID == $store.getters.userdata.id || $route.path == '/adminPanel'" class="column">
-              <button v-if="!editingCommentId.includes(com.commentId)" class="btn btn-primary mr-2" @click="editComment(com)">Edytuj</button>
-              <button class="btn btn-primary" @click="deleteComment(com)">Usuń</button>
+            <div
+              v-if="
+                com.userID == $store.getters.userdata.id ||
+                  $route.path == '/adminPanel'
+              "
+              class="column"
+            >
+              <button
+                v-if="!editingCommentId.includes(com.commentId)"
+                class="btn btn-primary mr-2"
+                @click="editComment(com)"
+              >
+                Edytuj
+              </button>
+              <button class="btn btn-primary" @click="deleteComment(com)">
+                Usuń
+              </button>
             </div>
           </div>
         </div>
@@ -172,7 +198,7 @@ export default {
         }
       }
     },
-    getUserPhoto(userID){
+    getUserPhoto(userID) {
       for (var i = 0; i < this.users.length; i++) {
         if (this.users[i].id == userID) {
           return this.users[i].photoURL;
@@ -192,18 +218,17 @@ export default {
     editScream(scream) {
       this.$router.push("/editScream/" + scream.screamId);
     },
-    editComment(comment){
-      if(!this.editingCommentId.includes(comment.commentId)){
+    editComment(comment) {
+      if (!this.editingCommentId.includes(comment.commentId)) {
         this.editingCommentId.push(comment.commentId);
-      }else{
+      } else {
         const indexOf = this.editingCommentId.indexOf(comment.commentId);
         this.editingCommentId.splice(indexOf, 1);
-        this.$store.dispatch('editComment', comment);
+        this.$store.dispatch("editComment", comment);
       }
-      
     },
-    deleteComment(comment){
-      this.$store.dispatch('deleteComment', comment.commentId);
+    deleteComment(comment) {
+      this.$store.dispatch("deleteComment", comment.commentId);
     }
   },
   created() {

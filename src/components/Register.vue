@@ -81,9 +81,10 @@ export default {
               displayName: this.displayName,
               createAt: new Date(),
               bio: this.bio,
-              photoURL: "",
+              photoURL: "https://www.w3schools.com/howto/img_avatar.png",
               myScreamers: [],
-              isAdmin: false
+              isAdmin: false,
+              unreadMessages: []
             });
             this.$router.replace("/");
           },

@@ -13,6 +13,13 @@
       <b-button @click="unfollow" v-if="followed">
         Anuluj obserwowanie
       </b-button>
+      <b-button
+        v-if="$route.params.id != currentUser.id"
+        class="btn btn-primary"
+        tag="router-link"
+        :to="`/messageDialog/${$route.params.id}`"
+        >Napisz wiadomość</b-button
+      >
     </div>
     <div class="column is-8">
       <UserScreams :user="user" />

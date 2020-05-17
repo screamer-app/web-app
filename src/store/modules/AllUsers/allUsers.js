@@ -13,7 +13,9 @@ const actions = {
     db.collection("users").onSnapshot(querySnapshot => {
       let users = [];
       querySnapshot.forEach(doc => {
-        users.push(doc.data());
+        var user = doc.data();
+        user["docId"] = doc.id;
+        users.push(user);
       });
       commit("FETCH_USERS", users);
     });
@@ -22,6 +24,13 @@ const actions = {
 const getters = {
   getUsers(state) {
     return state.users;
+  },
+  getUserById: state => userID => {
+    for (let i = 0; i < state.users.length; i++) {
+      if (state.users[i].id == userID) {
+        return state.users[i];
+      }
+    }
   }
 };
 
