@@ -39,7 +39,7 @@
             {{ scream.createAt }}
           </h5>
           <p class="card-text">
-            {{ scream.scream }}
+            {{ scream.scream.toUpperCase() }}
           </p>
           <div class="tags">
             <p v-for="tag in scream.tags" v-bind:key="tag" class="mr-2">
@@ -66,7 +66,7 @@
             </div>
             <div class="column">
               <p v-if="!editingCommentId.includes(com.commentId)">
-                {{ com.comment }}
+                {{ com.comment.toUpperCase() }}
               </p>
               <div v-if="editingCommentId.includes(com.commentId)">
                 <input type="text" v-model="com.comment" />
