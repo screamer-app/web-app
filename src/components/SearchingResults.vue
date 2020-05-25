@@ -4,9 +4,11 @@
       v-for="user in searchingResults.users"
       :key="user.id"
       @click="cleanSearchBar"
+      class="searchingResult"
     >
+    <img class="userPhoto" :src="user.photoURL" alt="">
       <router-link class="" :to="`/user-profile/${user.id}`"
-        >użytkownik: {{ user.displayName }}</router-link
+        >{{ user.displayName }}</router-link
       >
     </div>
     <div
@@ -14,7 +16,8 @@
       :key="scream.id"
       @click="cleanSearchBar"
     >
-      scream tag: {{ scream.tags }}
+      Screamy z tagami: 
+      <p class="tags" v-for="(tag, index) in scream.tags" tag="router-link" :key="index">#{{ tag }}</p>
     </div>
   </div>
 </template>
@@ -33,3 +36,21 @@ export default {
   }
 };
 </script>
+<style>
+  .userPhoto{
+    border-radius: 50%;
+    height: auto;
+    max-width: 3%;
+    margin-right: 7px; 
+  }
+  .searchingResult{
+    border-bottom: 1px dashed #7957d5;
+    padding:15px;
+  }
+  .searchingResult:first-child{
+    border-top: 1px dashed #7957d5;
+  }
+  .tags{
+
+  }
+</style>

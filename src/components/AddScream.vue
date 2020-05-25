@@ -3,13 +3,17 @@
     <form>
       <div class="form-group row">
         <div class="col-12">
-          <textarea
+          <!-- <textarea
             v-model="scream"
             placeholder="Treść screama"
             cols="40"
             rows="5"
             class="form-control"
-          ></textarea>
+          ></textarea> -->
+          <b-field class="m-2" label="Napisz screama"
+            >
+            <b-input placeholder="Wykrzycz to co Ci leży na sercu..." v-model="scream" type="textarea"></b-input>
+        </b-field>
           <b-taginput v-model="tags" ellipsis icon="label" placeholder="Tagi">
           </b-taginput>
         </div>

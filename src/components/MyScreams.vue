@@ -1,8 +1,9 @@
 <template>
   <div class="container">
+    <img class="avatar" :src="authUser.photoURL" alt="">
     <Edit />
     <div>
-      <P>Screamy:</P>
+      <h1 class="screams-title">Screamy:</h1>
       <ScreamList :propScreams="screams" />
     </div>
   </div>
@@ -66,3 +67,14 @@ export default {
   }
 };
 </script>
+<style>
+  .screams-title{
+    font-size:3rem;
+    color: #7957d5;
+    margin-bottom: 10px;
+  }
+  .avatar{
+    height: auto;
+    max-width: 30%;
+  }
+</style>

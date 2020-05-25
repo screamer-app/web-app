@@ -1,19 +1,42 @@
 <template>
   <div>
-    <div v-for="msg in messages" :key="msg.messageId">
-      <div class="columns px-5">
+    <div
+      class="messageDialog mt-2"
+      v-for="msg in messages"
+      :key="msg.messageId"
+    >
+      <div
+        v-if="msg.senderID == $route.params.userId"
+        class="columns px-5 receiverUserMessage"
+      >
+        <div class="column is-2 ">
+          <p>{{ msg.displayName }}</p>
+          <img :src="msg.userPhoto" alt="" class="photoURL" />
+          <p>wysłano o {{ msg.createAt }}</p>
+        </div>
+        <div class="column is-10 receiverUserMessageContent">
+          <p>{{ msg.message }}</p>
+        </div>
+      </div>
+
+      <div
+        v-if="msg.senderID != $route.params.userId"
+        class="columns px-5 authUserMessage"
+      >
+        <div class="column is-10 authUserMessageContent">
+          <p class="">{{ msg.message }}</p>
+        </div>
         <div class="column is-2">
           <p>{{ msg.displayName }}</p>
           <img :src="msg.userPhoto" alt="" class="photoURL" />
           <p>wysłano o {{ msg.createAt }}</p>
         </div>
-        <div class="column is-10">
-          <p>{{ msg.message }}</p>
-        </div>
       </div>
     </div>
-    <input type="text" v-model="message" />
-    <button class="btn btn-primary" @click="sendMessage">Wyślij</button>
+    <b-field class="px-5 py-3" :label-position="'on-border'" label="Wiadomość">
+      <b-input class="w-100" type="is-primary" v-model="message" />
+      <b-button type="is-primary" @click="sendMessage">Wyślij</b-button>
+    </b-field>
   </div>
 </template>
 
@@ -72,5 +95,27 @@ export default {
   max-width: 20%;
   height: auto;
   border-radius: 50%;
+}
+.authUserMessage {
+  background-color: #ccb4fb;
+  margin-bottom: 10px !important;
+}
+.messageDialog {
+  padding: 0px 40px;
+  padding-bottom: 10px !important;
+}
+.authUserMessageContent {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.receiverUserMessageContent {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.receiverUserMessage {
+  background-color: #e5d4ff;
+  margin-bottom: 10px !important;
 }
 </style>

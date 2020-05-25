@@ -1,14 +1,14 @@
 <template>
   <div>
-    <input
-      v-model="authUser.photoURL"
-      id="url"
-      name="url"
-      class="form-control"
-    />
-    <button @click="update_photo">Zmień avatar</button>
-    <input v-model="authUser.bio" id="bio" name="bio" class="form-control" />
-    <button @click="update_bio">Zmień bio</button>
+    <b-field class="mt-2" :label-position="'on-border'" label="Awatar">
+            <b-input placeholder="Wklej link do zdjęcia" v-model="authUser.photoURL"></b-input>
+        </b-field>
+     
+      <b-button class="mb-2" @click="update_photo" type="is-primary">Zmień avatar</b-button>
+      <b-field :label-position="'on-border'" label="Biografia">
+            <b-input placeholder="Napisz coś o sobie..." v-model="authUser.bio"></b-input>
+        </b-field>
+      <b-button class="mb-2" @click="update_bio" type="is-primary">Zmień bio</b-button>
   </div>
 </template>
 
@@ -18,7 +18,9 @@ import { db } from "@/main.js";
 export default {
   name: "Edit",
   data() {
-    return {};
+    return {
+      isComponentModalActive: false
+    };
   },
   computed: {
     authUser() {

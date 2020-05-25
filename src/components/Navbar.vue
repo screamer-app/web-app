@@ -1,20 +1,35 @@
 <template>
   <b-navbar>
     <template slot="brand">
-      <b-navbar-item tag="router-link" to="/">screamer-app</b-navbar-item>
+      <b-navbar-item
+        type="is-primary"
+        class="navbartitle"
+        tag="router-link"
+        to="/"
+        >SCREAMER
+      </b-navbar-item>
     </template>
     <template slot="start">
-      <b-navbar-item v-if="visible" class="" tag="router-link" to="/screams"
+      <b-navbar-item
+        v-if="visible"
+        class="navbar-item"
+        tag="router-link"
+        to="/screams"
         >Mój profil</b-navbar-item
       >
       <b-navbar-item
         v-if="$store.getters.userdata.isAdmin"
-        class=""
+        class="navbar-item"
         tag="router-link"
         to="/adminPanel"
         >Admin</b-navbar-item
       >
-      <b-navbar-item v-if="visible" tag="router-link" to="/messages">
+      <b-navbar-item
+        v-if="visible"
+        tag="router-link"
+        class="navbar-item"
+        to="/messages"
+      >
         Wiadomości({{ $store.getters.userdata.unreadMessages.length }})
       </b-navbar-item>
     </template>
@@ -24,7 +39,6 @@
         <b-input
           placeholder="Wpisz nazwę lub tag..."
           type="search"
-          icon="magnify"
           v-model="search"
           @keyup.native="searching"
         ></b-input>
@@ -131,3 +145,12 @@ export default {
   }
 };
 </script>
+<style>
+.navbartitle {
+  text-decoration: none !important;
+  color: #7957d5 !important;
+}
+.navbar-item {
+  text-decoration: none !important;
+}
+</style>

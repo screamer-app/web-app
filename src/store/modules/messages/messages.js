@@ -103,13 +103,13 @@ const getters = {
           } else {
             messages[users[i]]++;
           }
-        }else{
+        } else {
           messages[users[i]] = 0;
         }
       }
     }
-    if(unreadMessages.length == 0){
-      for(let i=0 ; i<users.length ;i++){
+    if (unreadMessages.length == 0) {
+      for (let i = 0; i < users.length; i++) {
         messages[users[i]] = 0;
       }
     }
@@ -120,7 +120,7 @@ const getters = {
       myMessage["messages"] = messages[key];
       myMessages.push(myMessage);
     }
-console.log(myMessages);
+    console.log(myMessages);
     return myMessages;
   }
 };

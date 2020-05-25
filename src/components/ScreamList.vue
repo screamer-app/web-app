@@ -19,10 +19,10 @@
         </div>
         <div v-if="scream.sharedTo != ''" class="media-right">
           <p>
-            &lt;<router-link :to="'/user-profile/' + scream.sharedTo">{{
+            <router-link class="sharedNick" :to="'/user-profile/' + scream.sharedTo">{{
               getUserName(scream.sharedTo)
             }}</router-link
-            >&gt; podał dalej
+            >podał dalej
           </p>
         </div>
         <div class="card-body">
@@ -35,7 +35,7 @@
               {{ scream.login }}
             </h5>
           </router-link>
-          <h5 class="card-author">
+          <h5 class="card-date">
             {{ scream.createAt }}
           </h5>
           <p class="card-text">
@@ -50,7 +50,10 @@
           </div>
         </div>
         <div v-for="com in comments" v-bind:key="com.commentId">
-          <div class="columns" v-if="com.screamId == scream.screamId">
+          <div
+            class="columns comment-body mb-4"
+            v-if="com.screamId == scream.screamId"
+          >
             <div class="column is-one-fifth">
               <img
                 class="avatar"
@@ -64,15 +67,22 @@
               </router-link>
               <p>{{ com.createAt }}</p>
             </div>
-            <div class="column">
+            <div class="column is-three-fifth d-flex align-items-center">
               <p v-if="!editingCommentId.includes(com.commentId)">
                 {{ com.comment.toUpperCase() }}
               </p>
-              <div v-if="editingCommentId.includes(com.commentId)">
-                <input type="text" v-model="com.comment" />
-                <button class="btn btn-primary" @click="editComment(com)">
-                  Edytuj
-                </button>
+              <div class="w-100 " v-if="editingCommentId.includes(com.commentId)">
+                <b-field class="d-flex align-items-center" label="Name" label-position="on-border">
+                  <b-input class="w-100 mr-2" v-model="com.comment" type="is-primary"></b-input>
+                  <b-button
+                  @click="editComment(com)"
+                  size="is-small"
+                  type="is-primary"
+                  >Edytuj</b-button
+                >
+                </b-field>
+
+                
               </div>
             </div>
             <div
@@ -80,67 +90,70 @@
                 com.userID == $store.getters.userdata.id ||
                   $route.path == '/adminPanel'
               "
-              class="column"
+              class="column is-one-fifth d-flex align-items-center justify-content-center"
             >
-              <button
+              <b-button
                 v-if="!editingCommentId.includes(com.commentId)"
-                class="btn btn-primary mr-2"
                 @click="editComment(com)"
+                size="is-small"
+                type="is-primary"
+                class="mr-2"
+                >Edytuj</b-button
               >
-                Edytuj
-              </button>
-              <button class="btn btn-primary" @click="deleteComment(com)">
-                Usuń
-              </button>
+
+              <b-button
+                @click="deleteComment(com)"
+                size="is-small"
+                type="is-primary"
+                >Usuń</b-button
+              >
             </div>
           </div>
         </div>
         <form v-if="authUser.uid">
           <div class="form-group row">
             <div class="col-12">
-              <textarea
-                v-model="comment"
-                placeholder="Treść komentarza"
-                cols="10"
-                rows="5"
-                class="form-control"
-              ></textarea>
+              <b-field label="Napisz komentarz" :label-position="'on-border'">
+                <b-input
+                  placeholder="Treść komentarza"
+                  v-model="comment"
+                  type="textarea"
+                ></b-input>
+              </b-field>
+              
             </div>
           </div>
-          <div class="form-group row">
-            <div class="offset-6 col-11">
-              <button
-                class="btn btn-primary mr-2"
+          <div class=" row">
+            <div class=" d-flex">
+              <b-button
                 @click="editScream(scream)"
-                type="button"
+                type="is-primary"
+                class="mr-2"
                 v-if="$route.path == '/adminPanel' || $route.path == '/screams'"
+                >Edytuj</b-button
               >
-                Edytuj
-              </button>
-              <button
-                class="btn btn-primary mr-2"
+              <b-button
                 @click="deleteScream(scream)"
-                type="button"
+                type="is-primary"
+                class="mr-2"
                 v-if="$route.path == '/adminPanel' || $route.path == '/screams'"
+                >Usuń</b-button
               >
-                Usuń
-              </button>
-              <button
+
+              <b-button
                 @click="shareScream(scream)"
-                class="btn btn-primary mr-2"
-                type="button"
+                type="is-primary"
+                class="mr-2"
                 v-if="$route.path != '/adminPanel'"
+                >Podaj dalej</b-button
               >
-                Podaj dalej
-              </button>
-              <button
+              <b-button
                 @click="saveComment(scream.screamId)"
-                class="btn btn-primary"
-                type="button"
+                type="is-primary"
+                class="mr-2"
                 v-if="$route.path != '/adminPanel'"
+                >Dodaj komentarz</b-button
               >
-                Dodaj komentarz
-              </button>
             </div>
           </div>
         </form>
@@ -182,7 +195,7 @@ export default {
     saveComment(screamId) {
       const newComment = {
         comment: this.comment,
-        createAt: new Date().toString(),
+        createAt: new Date().toLocaleString(),
         userID: this.$store.getters.userdata.id,
         login: this.$store.getters.userdata.displayName,
         screamId: screamId
@@ -262,6 +275,11 @@ body {
 .h7 {
   font-size: 0.8rem;
 }
+.media-right {
+  float: right;
+  margin-left: -200px;
+  padding-bottom: 15px;
+}
 
 .gedf-wrapper {
   margin-top: 0.97rem;
@@ -270,6 +288,35 @@ body {
   float: left;
   margin-right: -200px;
   padding-bottom: 15px;
+}
+.incoming_msg {
+  border: 0.2px dashed #7957d5;
+  padding: 40px;
+  margin-bottom: 10px;
+}
+.photo-profile {
+  border-radius: 50%;
+}
+.card-link {
+  color: #7957d5 !important;
+  text-decoration: none;
+  font-size: 2rem;
+}
+.card-date {
+  color: grey;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+.card-text {
+  padding: 15px;
+  margin-top:15px;
+  text-align:left;
+}
+.card-body {
+  padding-top: 0px;
+}
+.comment-body {
+  background: #f1eaf7;
 }
 
 @media (min-width: 992px) {
@@ -289,5 +336,10 @@ body {
 .avatar {
   border-radius: 50%;
   max-width: 20%;
+}
+.sharedNick{
+  text-decoration: none!important;
+  font-weight: 700;
+  margin-right: 5px;
 }
 </style>

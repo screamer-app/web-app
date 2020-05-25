@@ -5,6 +5,7 @@
         <router-link :to="`/messageDialog/${message.id}`">
           <b-message
             :title="$store.getters.getUserById(message.id).displayName"
+            type="is-primary"
           >
             {{ message.messages }} nieprzeczytanych wiadomości.
           </b-message>

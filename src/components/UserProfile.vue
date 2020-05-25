@@ -2,33 +2,35 @@
   <div class="columns">
     <div class="column is-4">
       <img class="user-photo" :src="user.photoURL" alt="" />
-      <h2>{{ user.displayName }}</h2>
-      <p>{{ user.bio }}</p>
+      <h2 class="user-name">{{ user.displayName }}</h2>
+      <h2 class="bio-name">Biografia:</h2>
+      <p class="bio">{{ user.bio }}</p>
       <b-button
         @click="follow"
         v-if="!followed && $route.params.id != currentUser.id"
       >
         Obserwuj
       </b-button>
-      <b-button @click="unfollow" v-if="followed">
+      <b-button type="is-light" @click="unfollow" v-if="followed">
         Anuluj obserwowanie
       </b-button>
       <b-button
         v-if="$route.params.id != currentUser.id"
-        class="btn btn-primary"
+        type="is-primary"
         tag="router-link"
         :to="`/messageDialog/${$route.params.id}`"
+        class="message-button"
         >Napisz wiadomość</b-button
       >
     </div>
     <div class="column is-8">
-      <UserScreams :user="user" />
+      <ScreamList :propScreams="screams" />
     </div>
   </div>
 </template>
 
 <script>
-import UserScreams from "./UserScreams";
+import ScreamList from "./ScreamList";
 import firebase from "firebase";
 
 export default {
@@ -44,7 +46,19 @@ export default {
     },
     currentUser() {
       return this.$store.getters.userdata;
-    }
+    },screams() {
+      let allScreams = this.$store.getters.getScreams;
+      let userScreams = [];
+      allScreams.forEach(scream => {
+        if (
+          scream.userID == this.$route.params.id ||
+          scream.sharedTo == this.$route.params.id
+        ) {
+          userScreams.push(scream);
+        }
+      });
+      return userScreams;
+    },
   },
   watch: {
     "$route.params.id"() {
@@ -68,7 +82,7 @@ export default {
     }
   },
   components: {
-    UserScreams
+    ScreamList
   },
   methods: {
     follow() {
@@ -103,5 +117,21 @@ export default {
 .user-photo {
   max-width: 50%;
   height: auto;
+}
+.user-name{
+  margin-top: 10px;
+  font-size: 3rem;
+  color: #7957d5;
+}
+.bio-name{
+  font-weight: 700;
+  font-style: italic;
+  font-size: 1rem;
+}
+.bio{
+  padding: 10px;
+}
+.message-button{
+  text-decoration: none!important;
 }
 </style>
