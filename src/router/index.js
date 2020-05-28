@@ -18,74 +18,74 @@ Vue.use(VueRouter);
 const routes = [{
         path: "/",
         name: "Home",
-        component: Home
+        component: Home,
     },
     {
         path: "/login",
         name: "login",
-        component: Login
+        component: Login,
     },
     {
         path: "/register",
         name: "register",
-        component: Register
+        component: Register,
     },
     {
         path: "/add-scream",
         name: "AddScream",
-        component: AddScream
+        component: AddScream,
     },
     {
         path: "/scream-list",
         name: "ScreamList",
-        component: ScreamList
+        component: ScreamList,
     },
     {
         path: "/edit",
         name: "Edit",
-        component: Edit
+        component: Edit,
     },
     {
         path: "/screams",
         name: "MyScreams",
-        component: MyScreams
+        component: MyScreams,
     },
     {
         path: "/user-profile/:id",
         name: "UserProfile",
-        component: UserProfile
+        component: UserProfile,
     },
     {
         path: "/tag-screams/:tag",
         name: "TagScreams",
-        component: TagScreams
+        component: TagScreams,
     },
     {
         path: "/admin-panel",
         name: "AdminPanel",
-        component: AdminPanel
+        component: AdminPanel,
     },
     {
         path: "/edit-scream/:screamId",
         name: "EditScream",
-        component: EditScream
+        component: EditScream,
     },
     {
         path: "/message-dialog/:userId",
         name: "MessageDialog",
-        component: MessageDialog
+        component: MessageDialog,
     },
     {
         path: "/messages",
         name: "Messages",
-        component: Messages
-    }
+        component: Messages,
+    },
 ];
 
 const router = new VueRouter({
     mode: "history",
     base: process.env.BASE_URL,
-    routes
+    routes,
 });
 
 export default router;
