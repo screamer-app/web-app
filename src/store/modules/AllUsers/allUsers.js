@@ -14,7 +14,7 @@ const actions = {
       let users = [];
       querySnapshot.forEach(doc => {
         var user = doc.data();
-        user["docId"] = doc.id;
+        user["documentID"] = doc.id;
         users.push(user);
       });
       commit("FETCH_USERS", users);

@@ -1,6 +1,6 @@
 <template>
   <b-tabs type="is-toggle" expanded>
-    <b-tab-item label="Screamy" icon="library-music">
+    <b-tab-item label="Screamy">
       <ScreamList />
     </b-tab-item>
   </b-tabs>
@@ -13,8 +13,8 @@ export default {
   components: {
     ScreamList
   },
-  beforeRouteEnter(to, from, next) {
-    if (from.matched[0].instances.default.$store.getters.userdata.isAdmin) {
+  beforeRouteEnter: function(to, from, next) {
+    if (from.matched[0].instances.default.$store.getters.getAuthUser.isAdmin) {
       next();
     } else {
       alert("Przykro mi nie masz uprawnień");

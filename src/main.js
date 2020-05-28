@@ -9,7 +9,6 @@ import firebase from "firebase";
 import VueResource from 'vue-resource';
 
 require("firebase/firestore");
-require("firebase/functions");
 
 const Config = {
     apiKey: "AIzaSyBrJbhxONYQDprXw-kqmzHUEWl83e89Ky0",
@@ -32,7 +31,6 @@ Vue.use(VueResource);
 Vue.http.options.root = 'https://screamer-app.firebaseio.com/';
 
 export const db = firebase.firestore();
-export const functions = firebase.functions();
 
 new Vue({
     router,

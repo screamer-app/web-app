@@ -21,7 +21,7 @@ const actions = {
           for (var key in doc.data()) {
             comment[key] = doc.data()[key];
           }
-          comment["commentId"] = doc.id;
+          comment["documentID"] = doc.id;
           allComments.push(comment);
         });
         commit("FETCH_COMMENTS", allComments);
@@ -36,23 +36,23 @@ const actions = {
         state.comments.push(commentData);
       });
   },
-  deleteScreamComments({ state }, screamId) {
+  deleteScreamComments({ state }, screamID) {
     for (let i = 0; i < state.comments.length; i++) {
-      if (state.comments[i].screamId == screamId) {
+      if (state.comments[i].screamID == screamID) {
         db.collection("comments")
-          .doc(state.comments[i].commentId)
+          .doc(state.comments[i].documentID)
           .delete();
       }
     }
   },
-  deleteComment(context, commentId) {
+  deleteComment(context, documentID) {
     db.collection("comments")
-      .doc(commentId)
+      .doc(documentID)
       .delete();
   },
   editComment(context, comment) {
     db.collection("comments")
-      .doc(comment.commentId)
+      .doc(comment.documentID)
       .update(comment);
   }
 };

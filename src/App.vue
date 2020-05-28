@@ -21,7 +21,7 @@ export default {
     SearchingResults
   },
   created() {
-    this.$store.dispatch("fetchUser");
+    this.$store.dispatch("fetchAuthUser");
     this.$store.dispatch("fetchUsers");
     this.$store.dispatch("fetchScreams");
     this.$store.dispatch("fetchComments");

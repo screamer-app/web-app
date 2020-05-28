@@ -16,33 +16,40 @@ export default {
     AddScream,
     ScreamList
   },
-  data() {
+  data: function() {
     return {
       followedScreams: []
     };
   },
   computed: {
-    followedUsers() {
+    followedUsers: function() {
       return this.$store.getters.getFollowedUsers;
     },
-    authUser() {
-      return this.$store.getters.userdata;
+    authUser: function() {
+      return this.$store.getters.getAuthUser;
     },
-    allScreams() {
+    allScreams: function() {
       return this.$store.getters.getScreams;
     }
   },
   methods: {
-    getFollowedScreams() {
+    getFollowedScreams: function() {
       const followedScreams = [];
       if (firebase.auth().currentUser != null) {
         for (let i = 0; i < this.allScreams.length; i++) {
+          if (this.allScreams[i].userID == this.authUser.id) {
+            if (!followedScreams.includes(this.allScreams[i])) {
+              followedScreams.push(this.allScreams[i]);
+            }
+          }
           for (let j = 0; j < this.followedUsers.length; j++) {
             if (
               this.followedUsers[j].id == this.allScreams[i].userID ||
               this.allScreams[i].sharedTo == this.followedUsers[j].id
             ) {
-              followedScreams.push(this.allScreams[i]);
+              if (!followedScreams.includes(this.allScreams[i])) {
+                followedScreams.push(this.allScreams[i]);
+              }
             }
           }
         }

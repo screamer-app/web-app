@@ -3,7 +3,7 @@
     <div class="container">
       <div
         v-for="scream in screams"
-        v-bind:key="scream.screamId"
+        v-bind:key="scream.documentID"
         class="incoming_msg"
       >
         <div class="media-left">
@@ -19,9 +19,10 @@
         </div>
         <div v-if="scream.sharedTo != ''" class="media-right">
           <p>
-            <router-link class="sharedNick" :to="'/user-profile/' + scream.sharedTo">{{
-              getUserName(scream.sharedTo)
-            }}</router-link
+            <router-link
+              class="sharedNick"
+              :to="'/user-profile/' + scream.sharedTo"
+              >{{ getUserName(scream.sharedTo) }}</router-link
             >podał dalej
           </p>
         </div>
@@ -43,21 +44,21 @@
           </p>
           <div class="tags">
             <p v-for="tag in scream.tags" v-bind:key="tag" class="mr-2">
-              <router-link :to="`/tagScreams/${tag}`">
+              <router-link :to="`/tag-screams/${tag}`">
                 {{ "#" + tag }}
               </router-link>
             </p>
           </div>
         </div>
-        <div v-for="com in comments" v-bind:key="com.commentId">
+        <div v-for="com in comments" v-bind:key="com.documentID">
           <div
             class="columns comment-body mb-4"
-            v-if="com.screamId == scream.screamId"
+            v-if="com.screamID == scream.documentID"
           >
             <div class="column is-one-fifth">
               <img
                 class="avatar"
-                src="https://www.w3schools.com/howto/img_avatar.png"
+                :src="getUserPhoto(com.userID)"
                 alt=""
               />
               <router-link class="" :to="'/user-profile/' + com.userID">
@@ -68,32 +69,41 @@
               <p>{{ com.createAt }}</p>
             </div>
             <div class="column is-three-fifth d-flex align-items-center">
-              <p v-if="!editingCommentId.includes(com.commentId)">
+              <p v-if="!editingCommentId.includes(com.documentID)">
                 {{ com.comment.toUpperCase() }}
               </p>
-              <div class="w-100 " v-if="editingCommentId.includes(com.commentId)">
-                <b-field class="d-flex align-items-center" label="Name" label-position="on-border">
-                  <b-input class="w-100 mr-2" v-model="com.comment" type="is-primary"></b-input>
-                  <b-button
-                  @click="editComment(com)"
-                  size="is-small"
-                  type="is-primary"
-                  >Edytuj</b-button
+              <div
+                class="w-100 "
+                v-if="editingCommentId.includes(com.documentID)"
+              >
+                <b-field
+                  class="d-flex align-items-center"
+                  label="Name"
+                  label-position="on-border"
                 >
+                  <b-input
+                    class="w-100 mr-2"
+                    v-model="com.comment"
+                    type="is-primary"
+                  ></b-input>
+                  <b-button
+                    @click="editComment(com)"
+                    size="is-small"
+                    type="is-primary"
+                    >Edytuj</b-button
+                  >
                 </b-field>
-
-                
               </div>
             </div>
             <div
               v-if="
-                com.userID == $store.getters.userdata.id ||
-                  $route.path == '/adminPanel'
+                com.userID == $store.getters.getAuthUser.id ||
+                  $route.path == '/admin-panel'
               "
               class="column is-one-fifth d-flex align-items-center justify-content-center"
             >
               <b-button
-                v-if="!editingCommentId.includes(com.commentId)"
+                v-if="!editingCommentId.includes(com.documentID)"
                 @click="editComment(com)"
                 size="is-small"
                 type="is-primary"
@@ -120,7 +130,6 @@
                   type="textarea"
                 ></b-input>
               </b-field>
-              
             </div>
           </div>
           <div class=" row">
@@ -129,14 +138,18 @@
                 @click="editScream(scream)"
                 type="is-primary"
                 class="mr-2"
-                v-if="$route.path == '/adminPanel' || $route.path == '/screams'"
+                v-if="
+                  $route.path == '/admin-panel' || $route.path == '/screams'
+                "
                 >Edytuj</b-button
               >
               <b-button
                 @click="deleteScream(scream)"
                 type="is-primary"
                 class="mr-2"
-                v-if="$route.path == '/adminPanel' || $route.path == '/screams'"
+                v-if="
+                  $route.path == '/admin-panel' || $route.path == '/screams'
+                "
                 >Usuń</b-button
               >
 
@@ -144,14 +157,14 @@
                 @click="shareScream(scream)"
                 type="is-primary"
                 class="mr-2"
-                v-if="$route.path != '/adminPanel'"
+                v-if="$route.path != '/admin-panel'"
                 >Podaj dalej</b-button
               >
               <b-button
-                @click="saveComment(scream.screamId)"
+                @click="saveComment(scream.documentID)"
                 type="is-primary"
                 class="mr-2"
-                v-if="$route.path != '/adminPanel'"
+                v-if="$route.path != '/admin-panel'"
                 >Dodaj komentarz</b-button
               >
             </div>
@@ -166,9 +179,8 @@
 // @ is an alias to /src
 import firebase from "firebase";
 export default {
-  props: ["propScreams"],
   name: "ScreamList",
-  data() {
+  data: function() {
     return {
       scream: null,
       comment: null,
@@ -177,74 +189,72 @@ export default {
     };
   },
   computed: {
-    screams() {
+    screams: function() {
       if (this.propScreams == null) {
         return this.$store.getters.getScreams;
       } else {
         return this.propScreams;
       }
     },
-    comments() {
+    comments: function() {
       return this.$store.getters.getComments;
     },
-    users() {
+    users: function() {
       return this.$store.getters.getUsers;
     }
   },
   methods: {
-    saveComment(screamId) {
+    saveComment: function(screamID) {
       const newComment = {
         comment: this.comment,
         createAt: new Date().toLocaleString(),
-        userID: this.$store.getters.userdata.id,
-        login: this.$store.getters.userdata.displayName,
-        screamId: screamId
+        userID: this.$store.getters.getAuthUser.id,
+        login: this.$store.getters.getAuthUser.displayName,
+        screamID: screamID
       };
-      console.log(newComment);
       this.$store.dispatch("saveComment", newComment);
       this.comment = null;
     },
-    getUserName(userID) {
+    getUserName: function(userID) {
       for (var i = 0; i < this.users.length; i++) {
         if (this.users[i].id == userID) {
           return this.users[i].displayName;
         }
       }
     },
-    getUserPhoto(userID) {
+    getUserPhoto: function(userID) {
       for (var i = 0; i < this.users.length; i++) {
         if (this.users[i].id == userID) {
           return this.users[i].photoURL;
         }
       }
     },
-    shareScream(scream) {
+    shareScream: function(scream) {
       scream.sharedTo = this.authUser.uid;
       scream.createAt = new Date().toLocaleString();
-      delete scream.screamId;
-      console.log(scream);
+      delete scream.documentID;
       this.$store.dispatch("addScream", scream);
     },
-    deleteScream(scream) {
-      this.$store.dispatch("deleteScream", scream.screamId);
+    deleteScream: function(scream) {
+      this.$store.dispatch("deleteScream", scream.documentID);
     },
-    editScream(scream) {
-      this.$router.push("/editScream/" + scream.screamId);
+    editScream: function(scream) {
+      this.$router.push("/edit-scream/" + scream.documentID);
     },
-    editComment(comment) {
-      if (!this.editingCommentId.includes(comment.commentId)) {
-        this.editingCommentId.push(comment.commentId);
+    editComment: function(comment) {
+      if (!this.editingCommentId.includes(comment.documentID)) {
+        this.editingCommentId.push(comment.documentID);
       } else {
-        const indexOf = this.editingCommentId.indexOf(comment.commentId);
+        const indexOf = this.editingCommentId.indexOf(comment.documentID);
         this.editingCommentId.splice(indexOf, 1);
         this.$store.dispatch("editComment", comment);
       }
     },
-    deleteComment(comment) {
-      this.$store.dispatch("deleteComment", comment.commentId);
+    deleteComment: function(comment) {
+      this.$store.dispatch("deleteComment", comment.documentID);
     }
   },
-  created() {
+  created: function() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.authUser = user;
@@ -253,7 +263,8 @@ export default {
       }
     });
   },
-  beforeRouteEnter(to, from, next) {
+  props: ["propScreams"],
+  beforeRouteEnter: function(to, from, next) {
     next(vm => {
       firebase.auth().onAuthStateChanged(user => {
         if (user) {
@@ -309,8 +320,8 @@ body {
 }
 .card-text {
   padding: 15px;
-  margin-top:15px;
-  text-align:left;
+  margin-top: 15px;
+  text-align: left;
 }
 .card-body {
   padding-top: 0px;
@@ -337,8 +348,8 @@ body {
   border-radius: 50%;
   max-width: 20%;
 }
-.sharedNick{
-  text-decoration: none!important;
+.sharedNick {
+  text-decoration: none !important;
   font-weight: 700;
   margin-right: 5px;
 }

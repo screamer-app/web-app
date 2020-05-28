@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <img class="avatar" :src="authUser.photoURL" alt="">
+    <img class="avatar" :src="authUser.photoURL" alt="" />
     <Edit />
     <div>
       <h1 class="screams-title">Screamy:</h1>
@@ -13,44 +13,41 @@
 // @ is an alias to /src
 import firebase from "firebase";
 import Edit from "./Edit";
-import { db } from "@/main.js";
 import ScreamList from "./ScreamList";
 
 export default {
   name: "PrivateChat",
-  data() {
+  data: function() {
     return {
-      scream: null,
-      screams: []
+      scream: null
     };
   },
-  methods: {
-    fetchScreams() {
-      db.collection("screams")
-        .orderBy("createAt", "desc")
-        .onSnapshot(querySnapshot => {
-          let allScreams = [];
-          querySnapshot.forEach(doc => {
-            var scream = {};
-            if (doc.data().userID == firebase.auth().currentUser.uid) {
-              scream = doc.data();
-              scream["screamId"] = doc.id;
-              allScreams.push(scream);
-            }
-          });
-          this.screams = allScreams;
-        });
-    }
-  },
   computed: {
-    authUser() {
-      return this.$store.getters.userdata;
+    authUser: function() {
+      return this.$store.getters.getAuthUser;
+    },
+    screams: function() {
+      let allScreams = this.$store.getters.getScreams;
+      let userScreams = [];
+
+      allScreams.forEach(scream => {
+        if (
+          (scream.userID == this.authUser.id && scream.sharedTo == "") ||
+          (scream.sharedTo == this.authUser.id &&
+            scream.userID != this.authUser.id) ||
+          (scream.userID == this.authUser.id &&
+            scream.sharedTo == this.authUser.id)
+        ) {
+          userScreams.push(scream);
+        }
+      });
+      return userScreams;
     }
   },
-  created() {
+  created: function() {
     this.fetchScreams();
   },
-  beforeRouteEnter(to, from, next) {
+  beforeRouteEnter: function(to, from, next) {
     next(vm => {
       firebase.auth().onAuthStateChanged(user => {
         if (user) {
@@ -68,13 +65,13 @@ export default {
 };
 </script>
 <style>
-  .screams-title{
-    font-size:3rem;
-    color: #7957d5;
-    margin-bottom: 10px;
-  }
-  .avatar{
-    height: auto;
-    max-width: 30%;
-  }
+.screams-title {
+  font-size: 3rem;
+  color: #7957d5;
+  margin-bottom: 10px;
+}
+.avatar {
+  height: auto;
+  max-width: 30%;
+}
 </style>

@@ -33,17 +33,20 @@
 <script>
 export default {
   computed: {
-    scream() {
+    scream: function() {
       return this.$store.getters.getScreamById(this.$route.params.screamId);
     }
   },
-  created() {
-    this.$store.dispatch("fetchScreams");
+  created: function() {
+    this.fetchScreams();
   },
   methods: {
-    editScream() {
+    editScream: function() {
       const scream = this.scream;
       this.$store.dispatch("editScream", scream);
+    },
+    fetchScreams: function() {
+      this.$store.dispatch("fetchScreams");
     }
   }
 };

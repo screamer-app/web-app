@@ -2,7 +2,7 @@
   <div>
     <div class="columns px-5" v-for="message in messages" :key="message.docId">
       <div class="column is-12">
-        <router-link :to="`/messageDialog/${message.id}`">
+        <router-link :to="`/message-dialog/${message.id}`">
           <b-message
             :title="$store.getters.getUserById(message.id).displayName"
             type="is-primary"
@@ -18,12 +18,17 @@
 <script>
 export default {
   computed: {
-    messages() {
+    messages: function() {
       return this.$store.getters.getMyMessages;
     }
   },
-  created() {
-    this.$store.dispatch("fetchAllMessages");
+  created: function() {
+    this.fetchAllMessages();
+  },
+  methods: {
+    fetchAllMessages: function() {
+      this.$store.dispatch("fetchAllMessages");
+    }
   }
 };
 </script>

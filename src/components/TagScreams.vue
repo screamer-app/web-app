@@ -11,19 +11,19 @@ export default {
   components: {
     ScreamList
   },
-  data() {
+  data: function() {
     return {
       screams: [],
       propScreams: ""
     };
   },
   computed: {
-    allScreams() {
+    allScreams: function() {
       return this.$store.getters.getScreams;
     }
   },
   methods: {
-    getScreams() {
+    getScreams: function() {
       const allScreams = this.allScreams;
       const screams = [];
       const tag = this.$route.params.tag;
@@ -39,11 +39,11 @@ export default {
       this.propScreams = screams;
     }
   },
-  created() {
+  created: function() {
     this.getScreams();
   },
   watch: {
-    "$route.params.tag"() {
+    "$route.params.tag": function() {
       this.getScreams();
     }
   }

@@ -42,39 +42,36 @@
 
 <script>
 export default {
-  data() {
+  data: function() {
     return {
       message: ""
     };
   },
   computed: {
-    messages() {
+    messages: function() {
       return this.$store.getters.getMessages;
     },
-    receiver() {
+    receiver: function() {
       return this.$store.getters.getUserById(this.$route.params.userId);
     },
-    sender() {
-      return this.$store.getters.userdata;
+    sender: function() {
+      return this.$store.getters.getAuthUser;
     }
   },
-  created() {
-    this.$store.dispatch("fetchUser");
-    this.$store.dispatch("fetchMessages", [
-      this.sender.id,
-      this.$route.params.userId
-    ]);
-    this.$store.dispatch("removeUnreadMessages", this.$route.params.userId);
+  created: function() {
+    this.fetchAuthUser();
+    this.fetchMessages();
+    this.removeUnreadMessages();
   },
   methods: {
-    sendMessage() {
+    sendMessage: function() {
       if (this.message == "") {
         return;
       }
       const message = {
         message: this.message,
         createAt: new Date().toLocaleString(),
-        senderID: this.$store.getters.userdata.id,
+        senderID: this.$store.getters.getAuthUser.id,
         receiverID: this.$route.params.userId,
         displayName: this.sender.displayName,
         userPhoto: this.sender.photoURL
@@ -82,9 +79,22 @@ export default {
 
       this.$store.dispatch("sendMessage", message);
       this.message = "";
+    },
+    removeUnreadMessages: function() {
+      this.$store.dispatch("removeUnreadMessages", this.$route.params.userId);
+    },
+    fetchMessages: function() {
+      this.$store.dispatch("fetchMessages", [
+        this.sender.id,
+        this.$route.params.userId
+      ]);
+    },
+    fetchAuthUser: function() {
+      this.$store.dispatch("fetchAuthUser");
     }
   },
-  destroyed() {
+
+  destroyed: function() {
     this.$store.commit("REMOVE_MESSAGES");
   }
 };

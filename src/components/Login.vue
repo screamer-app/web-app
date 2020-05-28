@@ -14,7 +14,9 @@
               </b-input>
             </b-field>
 
-            <b-button type="is-primary" class="mb-2" @click="login">Zaloguj</b-button>
+            <b-button type="is-primary" class="mb-2" @click="login"
+              >Zaloguj</b-button
+            >
 
             <p>
               Nie masz jeszcze swojego konta? Stwórz je
@@ -31,7 +33,7 @@
 import firebase from "firebase";
 export default {
   name: "login",
-  data() {
+  data: function() {
     return {
       email: "",
       password: ""

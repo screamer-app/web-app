@@ -21,7 +21,7 @@ const actions = {
           for (var key in doc.data()) {
             helper[key] = doc.data()[key];
           }
-          helper["screamId"] = doc.id;
+          helper["documentID"] = doc.id;
           allScreams.push(helper);
         });
         commit("FETCH_SCREAMS", allScreams);
@@ -36,15 +36,15 @@ const actions = {
         state.screams.push(scream);
       });
   },
-  deleteScream({ dispatch }, screamId) {
+  deleteScream({ dispatch }, documentID) {
     db.collection("screams")
-      .doc(screamId)
+      .doc(documentID)
       .delete();
-    dispatch("deleteScreamComments", screamId);
+    dispatch("deleteScreamComments", documentID);
   },
   editScream(context, scream) {
     db.collection("screams")
-      .doc(scream.screamId)
+      .doc(scream.documentID)
       .update(scream);
   }
 };
@@ -53,10 +53,10 @@ const getters = {
   getScreams(state) {
     return state.screams;
   },
-  getScreamById: state => screamId => {
+  getScreamById: state => documentID => {
     var scream = {};
     for (let i = 0; i < state.screams.length; i++) {
-      if (state.screams[i].screamId == screamId) {
+      if (state.screams[i].documentID == documentID) {
         scream = state.screams[i];
       }
     }

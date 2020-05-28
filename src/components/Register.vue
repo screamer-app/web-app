@@ -9,15 +9,13 @@
             <li v-for="(v, k) in errors" :key="k">{{ k }} {{ v | error }}</li>
           </ul>
           <form @submit.prevent="onSubmit">
-            
             <b-field label="Email">
               <b-input v-model="email"></b-input>
             </b-field>
             <b-field label="Username">
               <b-input v-model="displayName"></b-input>
             </b-field>
-            
-            
+
             <b-field label="Password">
               <b-input type="password" v-model="password" password-reveal>
               </b-input>
@@ -25,8 +23,10 @@
             <b-field label="Bio line">
               <b-input v-model="bio"></b-input>
             </b-field>
-            <b-button type="is-primary" class="mb-2" @click="signUp">Zarejestruj</b-button>
-            
+            <b-button type="is-primary" class="mb-2" @click="signUp"
+              >Zarejestruj</b-button
+            >
+
             <p>
               lub zaloguj się
               <router-link to="/login">TUTAJ</router-link>
@@ -44,7 +44,7 @@ import { db } from "@/main.js";
 
 export default {
   name: "signUp",
-  data() {
+  data: function() {
     return {
       email: "",
       password: "",

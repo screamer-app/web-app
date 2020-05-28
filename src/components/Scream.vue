@@ -7,12 +7,12 @@
       </h2>
       <b-jumbotron>
         <template slot="header">
-          {{message.userID}}
+          {{ message.userID }}
         </template>
         <template slot="lead">
-          Description: {{message.message}}<br>
+          Description: {{ message.message }}<br />
         </template>
-        <hr class="my-4">
+        <hr class="my-4" />
       </b-jumbotron>
     </b-col>
   </b-row>
@@ -22,26 +22,27 @@
 import firebase from "firebase";
 export default {
   name: "scream",
-  data() {
+  data: function() {
     return {
       key: "",
       scream: {}
-    }
+    };
   },
-  created() {
-    const ref = firebase.firestore().collection("screams").doc(this.$route.params.id)
-    ref.get().then((doc) => {
+  created: function() {
+    const ref = firebase
+      .firestore()
+      .collection("screams")
+      .doc(this.$route.params.id);
+    ref.get().then(doc => {
       if (doc.exists) {
-        this.key = doc.id
-        this.scream = doc.data()
+        this.key = doc.id;
+        this.scream = doc.data();
       } else {
-        alert("No such document!")
+        alert("No such document!");
       }
-    })
-  },
-  methods: {
+    });
   }
-}
+};
 </script>
 
 <style>

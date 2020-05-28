@@ -30,7 +30,7 @@ const actions = {
             usersData.includes(doc.data().senderID)
           ) {
             message = doc.data();
-            message["messageId"] = doc.id;
+            message["documentID"] = doc.id;
             allMessages.push(message);
           }
         });
@@ -42,12 +42,12 @@ const actions = {
     dispatch("setUnreadMessage", message);
   },
   setUnreadMessage({ getters }, message) {
-    var authUser = getters.userdata;
+    var authUser = getters.getAuthUser;
     if (message.senderID == authUser.id) {
       var receiverUser = getters.getUserById(message.receiverID);
       receiverUser.unreadMessages.push(message.senderID);
       db.collection("users")
-        .doc(receiverUser.docId)
+        .doc(receiverUser.documentID)
         .update(receiverUser);
     }
   },
@@ -58,14 +58,14 @@ const actions = {
         var allMessages = [];
         querySnapshot.forEach(doc => {
           var message = doc.data();
-          message["docId"] = doc.id;
+          message["documentID"] = doc.id;
           allMessages.push(message);
         });
         commit("SET_ALL_MESSAGES", allMessages);
       });
   },
   removeUnreadMessages({ getters }, receiverID) {
-    var authUser = getters.userdata;
+    var authUser = getters.getAuthUser;
     var unreadMessages = [];
     for (let i = 0; i < authUser.unreadMessages.length; i++) {
       if (authUser.unreadMessages[i] != receiverID) {
@@ -74,7 +74,7 @@ const actions = {
     }
     authUser.unreadMessages = unreadMessages;
     db.collection("users")
-      .doc(authUser.docId)
+      .doc(authUser.documentID)
       .update(authUser);
   }
 };
@@ -87,9 +87,9 @@ const getters = {
     var users = [];
     var messages = [];
     var myMessages = [];
-    var unreadMessages = getters.userdata.unreadMessages;
+    var unreadMessages = getters.getAuthUser.unreadMessages;
     for (let i = 0; i < state.allMessages.length; i++) {
-      if (state.allMessages[i].receiverID == getters.userdata.id) {
+      if (state.allMessages[i].receiverID == getters.getAuthUser.id) {
         if (!users.includes(state.allMessages[i].senderID)) {
           users.push(state.allMessages[i].senderID);
         }
@@ -120,7 +120,6 @@ const getters = {
       myMessage["messages"] = messages[key];
       myMessages.push(myMessage);
     }
-    console.log(myMessages);
     return myMessages;
   }
 };

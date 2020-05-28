@@ -3,17 +3,13 @@
     <form>
       <div class="form-group row">
         <div class="col-12">
-          <!-- <textarea
-            v-model="scream"
-            placeholder="Treść screama"
-            cols="40"
-            rows="5"
-            class="form-control"
-          ></textarea> -->
-          <b-field class="m-2" label="Napisz screama"
-            >
-            <b-input placeholder="Wykrzycz to co Ci leży na sercu..." v-model="scream" type="textarea"></b-input>
-        </b-field>
+          <b-field class="m-2 addScreamLabel" label="Napisz screama">
+            <b-input
+              placeholder="Wykrzycz to co Ci leży na sercu..."
+              v-model="scream"
+              type="textarea"
+            ></b-input>
+          </b-field>
           <b-taginput v-model="tags" ellipsis icon="label" placeholder="Tagi">
           </b-taginput>
         </div>
@@ -34,7 +30,7 @@
 import firebase from "firebase";
 export default {
   name: "AddScream",
-  data() {
+  data: function() {
     return {
       scream: null,
       screams: [],
@@ -43,12 +39,12 @@ export default {
     };
   },
   methods: {
-    saveScream() {
+    saveScream: function() {
       const scream = {
         scream: this.scream,
         createAt: new Date().toLocaleString(),
-        userID: this.$store.getters.userdata.id,
-        login: this.$store.getters.userdata.displayName,
+        userID: this.$store.getters.getAuthUser.id,
+        login: this.$store.getters.getAuthUser.displayName,
         sharedTo: "",
         tags: this.tags
       };
@@ -57,7 +53,7 @@ export default {
       this.tags = [];
     }
   },
-  created() {
+  created: function() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.authUser = user;
@@ -66,7 +62,7 @@ export default {
       }
     });
   },
-  beforeRouteEnter(to, from, next) {
+  beforeRouteEnter: function(to, from, next) {
     next(vm => {
       firebase.auth().onAuthStateChanged(user => {
         if (user) {
@@ -84,5 +80,8 @@ export default {
 .container {
   max-width: 1170px;
   margin: auto;
+}
+.addScreamLabel {
+  color: #7957d5 !important;
 }
 </style>

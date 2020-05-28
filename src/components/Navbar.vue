@@ -18,10 +18,10 @@
         >Mój profil</b-navbar-item
       >
       <b-navbar-item
-        v-if="$store.getters.userdata.isAdmin"
+        v-if="$store.getters.getAuthUser.isAdmin"
         class="navbar-item"
         tag="router-link"
-        to="/adminPanel"
+        to="/admin-panel"
         >Admin</b-navbar-item
       >
       <b-navbar-item
@@ -30,7 +30,7 @@
         class="navbar-item"
         to="/messages"
       >
-        Wiadomości({{ $store.getters.userdata.unreadMessages.length }})
+        Wiadomości({{ $store.getters.getAuthUser.unreadMessages.length }})
       </b-navbar-item>
     </template>
 
@@ -72,7 +72,7 @@ import firebase from "firebase";
 export default {
   props: ["cleanSearchingBar"],
   name: "home",
-  data() {
+  data: function() {
     return {
       homepage: false,
       search: "",
@@ -80,15 +80,15 @@ export default {
     };
   },
   computed: {
-    users() {
+    users: function() {
       return this.$store.getters.getUsers;
     },
-    screams() {
+    screams: function() {
       return this.$store.getters.getScreams;
     }
   },
   watch: {
-    cleanSearchingBar() {
+    cleanSearchingBar: function() {
       console.log(this.cleanSearchingBar);
       this.search = "";
     }
@@ -104,9 +104,9 @@ export default {
         });
     },
     login: function() {
-      this.$router.replace("login");
+      this.$router.push("/login");
     },
-    searching() {
+    searching: function() {
       const users = [];
       for (var i = 0; i < this.users.length; i++) {
         if (this.users[i].displayName.toLowerCase().includes(this.search)) {
@@ -134,7 +134,7 @@ export default {
       this.$store.commit("SET_SEARCHING_RESULTS", searchingResult);
     }
   },
-  created() {
+  created: function() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.visible = true;
