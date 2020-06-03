@@ -3,13 +3,13 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
-          <h1 class="headerlogin">Sign in</h1>
+          <h1 class="headerlogin">Zaloguj się</h1>
           <form @submit.prevent="">
             <b-field label="Email">
               <b-input v-model="email"></b-input>
             </b-field>
 
-            <b-field label="Password">
+            <b-field label="Hasło">
               <b-input type="password" v-model="password" password-reveal>
               </b-input>
             </b-field>

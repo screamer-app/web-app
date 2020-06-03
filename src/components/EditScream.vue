@@ -44,6 +44,7 @@ export default {
     editScream: function() {
       const scream = this.scream;
       this.$store.dispatch("editScream", scream);
+      this.$router.replace("/screams");
     },
     fetchScreams: function() {
       this.$store.dispatch("fetchScreams");
