@@ -37,7 +37,7 @@
             </h5>
           </router-link>
           <h5 class="card-date">
-            {{ scream.createAt }}
+            {{ scream.createAt.toDate().toLocaleString() }}
           </h5>
           <p class="card-text">
             {{ scream.scream.toUpperCase() }}
@@ -56,17 +56,13 @@
             v-if="com.screamID == scream.documentID"
           >
             <div class="column is-one-fifth">
-              <img
-                class="avatar"
-                :src="getUserPhoto(com.userID)"
-                alt=""
-              />
+              <img class="avatar" :src="getUserPhoto(com.userID)" alt="" />
               <router-link class="" :to="'/user-profile/' + com.userID">
                 <p>
                   {{ getUserName(com.userID) }}
                 </p>
               </router-link>
-              <p>{{ com.createAt }}</p>
+              <p>{{ com.createAt.toDate().toLocaleString() }}</p>
             </div>
             <div class="column is-three-fifth d-flex align-items-center">
               <p v-if="!editingCommentId.includes(com.documentID)">
@@ -185,7 +181,7 @@ export default {
       scream: null,
       comment: null,
       authUser: [],
-      editingCommentId: []
+      editingCommentId: [],
     };
   },
   computed: {
@@ -201,16 +197,16 @@ export default {
     },
     users: function() {
       return this.$store.getters.getUsers;
-    }
+    },
   },
   methods: {
     saveComment: function(screamID) {
       const newComment = {
         comment: this.comment,
-        createAt: new Date().toLocaleString(),
+        createAt: firebase.firestore.FieldValue.serverTimestamp(),
         userID: this.$store.getters.getAuthUser.id,
         login: this.$store.getters.getAuthUser.displayName,
-        screamID: screamID
+        screamID: screamID,
       };
       this.$store.dispatch("saveComment", newComment);
       this.comment = null;
@@ -231,7 +227,7 @@ export default {
     },
     shareScream: function(scream) {
       scream.sharedTo = this.authUser.uid;
-      scream.createAt = new Date().toLocaleString();
+      scream.createAt = firebase.firestore.FieldValue.serverTimestamp();
       delete scream.documentID;
       this.$store.dispatch("addScream", scream);
     },
@@ -252,10 +248,10 @@ export default {
     },
     deleteComment: function(comment) {
       this.$store.dispatch("deleteComment", comment.documentID);
-    }
+    },
   },
   created: function() {
-    firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.authUser = user;
       } else {
@@ -265,8 +261,8 @@ export default {
   },
   props: ["propScreams"],
   beforeRouteEnter: function(to, from, next) {
-    next(vm => {
-      firebase.auth().onAuthStateChanged(user => {
+    next((vm) => {
+      firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           next();
         } else {
@@ -274,7 +270,7 @@ export default {
         }
       });
     });
-  }
+  },
 };
 </script>
 

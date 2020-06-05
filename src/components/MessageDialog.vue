@@ -12,7 +12,7 @@
         <div class="column is-2 ">
           <p>{{ msg.displayName }}</p>
           <img :src="msg.userPhoto" alt="" class="photoURL" />
-          <p>wysłano o {{ msg.createAt }}</p>
+          <p>wysłano o {{ msg.createAt.toDate().toLocaleString() }}</p>
         </div>
         <div class="column is-10 receiverUserMessageContent">
           <p>{{ msg.message }}</p>
@@ -29,7 +29,7 @@
         <div class="column is-2">
           <p>{{ msg.displayName }}</p>
           <img :src="msg.userPhoto" alt="" class="photoURL" />
-          <p>wysłano o {{ msg.createAt }}</p>
+          <p>wysłano o {{ msg.createAt.toDate().toLocaleString() }}</p>
         </div>
       </div>
     </div>
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import firebase from "firebase";
 export default {
   data: function() {
     return {
@@ -70,7 +71,7 @@ export default {
       }
       const message = {
         message: this.message,
-        createAt: new Date().toLocaleString(),
+        createAt: firebase.firestore.FieldValue.serverTimestamp(),
         senderID: this.$store.getters.getAuthUser.id,
         receiverID: this.$route.params.userId,
         displayName: this.sender.displayName,

@@ -42,7 +42,7 @@ export default {
     saveScream: function() {
       const scream = {
         scream: this.scream,
-        createAt: new Date().toLocaleString(),
+        createAt: firebase.firestore.FieldValue.serverTimestamp(),
         userID: this.$store.getters.getAuthUser.id,
         login: this.$store.getters.getAuthUser.displayName,
         sharedTo: "",
